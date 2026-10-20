@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta name="robots" content="noindex,follow">
+<link rel="stylesheet" href="/mirror.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CJK (中日韩) 字体回退测试</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            line-height: 1.5;
+            padding: 20px;
+            background-color: #f4f6f8;
+            color: #2c3e50;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 { border-bottom: 2px solid #dfe6e9; padding-bottom: 15px; margin-bottom: 30px; }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+        }
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border-left: 5px solid #bdc3c7;
+        }
+        /* 语言卡片颜色标识 */
+        .card[lang="zh-CN"] { border-left-color: #e74c3c; } /* 红 */
+        .card[lang="zh-TW"] { border-left-color: #e67e22; } /* 橙 */
+        .card[lang="ja"]    { border-left-color: #2ecc71; } /* 绿 */
+        .card[lang="ko"]    { border-left-color: #3498db; } /* 蓝 */
+
+        .lang-title {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #7f8c8d;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        .section { margin-bottom: 15px; }
+        .section-label {
+            display: inline-block;
+            background: #eee;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            color: #555;
+            margin-bottom: 4px;
+            font-family: monospace;
+        }
+        
+        /* 核心测试类 */
+        .sans { font-family: sans-serif; }
+        .serif { font-family: serif; }
+        .mono { font-family: monospace; }
+
+        .sample {
+            font-size: 1.3rem;
+            word-break: break-all;
+        }
+        .hint {
+            font-size: 0.8rem;
+            color: #95a5a6;
+            margin-top: 2px;
+        }
+    </style>
+</head>
+<body>
+<aside class="mirror-notice" data-pagefind-ignore>本站为备用镜像 · 内容更新于 <time>2026-10-09 16:02 CST</time> · <a href="https://www.yewen.us/">前往主站</a></aside>
+
+
+    <h1>本地 CJK 字体渲染测试 (简/繁/日/韩)</h1>
+    <p style="margin-bottom: 20px;">
+        <strong>使用说明：</strong> 右键点击文字 -> "检查 (Inspect)" -> "Computed" -> 滚动到底部 "Rendered Fonts" 可查看实际调用的字体文件。
+    </p>
+
+    <div class="grid">
+        
+        <div class="card" lang="zh-CN">
+            <div class="lang-title">Simplified Chinese (简体中文)</div>
+            
+            <div class="section sans">
+                <div class="section-label">SANS-SERIF (黑体)</div>
+                <div class="sample">复发返 (简) | 骨 - 这里的黎明静悄悄</div>
+                <div class="hint">观察“骨”字里面的方向，应向左</div>
+            </div>
+            <div class="section serif">
+                <div class="section-label">SERIF (宋体)</div>
+                <div class="sample">复发返 (简) | 遥远的救世主</div>
+            </div>
+            <div class="section mono">
+                <div class="section-label">MONOSPACE (等宽)</div>
+                <div class="sample">测试 text 0lI</div>
+            </div>
+        </div>
+
+        <div class="card" lang="zh-TW">
+            <div class="lang-title">Traditional Chinese (繁體中文)</div>
+            
+            <div class="section sans">
+                <div class="section-label">SANS-SERIF (黑體)</div>
+                <div class="sample">復發返 (繁) | 骨 - 國破山河在</div>
+                <div class="hint">观察“骨”字里面的方向，应向右</div>
+            </div>
+            <div class="section serif">
+                <div class="section-label">SERIF (明體)</div>
+                <div class="sample">復發返 (繁) | 城春草木深</div>
+            </div>
+            <div class="section mono">
+                <div class="section-label">MONOSPACE (等寬)</div>
+                <div class="sample">測試 text 0lI</div>
+            </div>
+        </div>
+
+        <div class="card" lang="ja">
+            <div class="lang-title">Japanese (日本語)</div>
+            
+            <div class="section sans">
+                <div class="section-label">SANS-SERIF (Gothic)</div>
+                <div class="sample">復発返 (日) | 骨 - 私は猫である</div>
+                <div class="hint">注意“返”的第一笔点，和“骨”里面的方向</div>
+            </div>
+            <div class="section serif">
+                <div class="section-label">SERIF (Mincho)</div>
+                <div class="sample">復発返 (日) | 夏目漱石</div>
+            </div>
+            <div class="section mono">
+                <div class="section-label">MONOSPACE</div>
+                <div class="sample">テスト text 0lI</div>
+            </div>
+        </div>
+
+        <div class="card" lang="ko">
+            <div class="lang-title">Korean (한국어)</div>
+            <div class="hint" style="margin-bottom:10px;">Advanced Font Settings 选: <strong>Hangul</strong></div>
+
+            <div class="section sans">
+                <div class="section-label">SANS-SERIF (Gothic)</div>
+                <div class="sample">안녕하세요 (安寧) | 서울의 봄</div>
+            </div>
+            <div class="section serif">
+                <div class="section-label">SERIF (Batang)</div>
+                <div class="sample">안녕하세요 (安寧) | 한강의 기적</div>
+            </div>
+            <div class="section mono">
+                <div class="section-label">MONOSPACE</div>
+                <div class="sample">테스트 text 0lI</div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
