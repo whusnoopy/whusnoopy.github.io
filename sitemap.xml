@@ -3,19 +3,37 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://www.yewen.us/blog/author/</loc>
-    <lastmod>2026-10-09T16:00:47+08:00</lastmod>
+    <lastmod>2026-10-23T13:42:09+08:00</lastmod>
   </url><url>
     <loc>https://www.yewen.us/blog/category/</loc>
-    <lastmod>2026-10-09T16:00:47+08:00</lastmod>
+    <lastmod>2026-10-23T13:42:09+08:00</lastmod>
+  </url><url>
+    <loc>https://www.yewen.us/blog/tag/hugo/</loc>
+    <lastmod>2026-10-23T13:42:09+08:00</lastmod>
+  </url><url>
+    <loc>https://www.yewen.us/blog/tag/mysql/</loc>
+    <lastmod>2026-10-23T13:42:09+08:00</lastmod>
+  </url><url>
+    <loc>https://www.yewen.us/blog/tag/php/</loc>
+    <lastmod>2026-10-23T13:42:09+08:00</lastmod>
   </url><url>
     <loc>https://www.yewen.us/posts/</loc>
-    <lastmod>2026-10-09T16:00:47+08:00</lastmod>
+    <lastmod>2026-10-23T13:42:09+08:00</lastmod>
   </url><url>
     <loc>https://www.yewen.us/blog/author/snoopy/</loc>
-    <lastmod>2026-10-09T16:00:47+08:00</lastmod>
+    <lastmod>2026-10-23T13:42:09+08:00</lastmod>
   </url><url>
     <loc>https://www.yewen.us/blog/tag/</loc>
-    <lastmod>2026-10-09T16:00:47+08:00</lastmod>
+    <lastmod>2026-10-23T13:42:09+08:00</lastmod>
+  </url><url>
+    <loc>https://www.yewen.us/blog/tag/wordpress/</loc>
+    <lastmod>2026-10-23T13:42:09+08:00</lastmod>
+  </url><url>
+    <loc>https://www.yewen.us/blog/category/blog-manage/</loc>
+    <lastmod>2026-10-23T13:42:09+08:00</lastmod>
+  </url><url>
+    <loc>https://www.yewen.us/blog/2026/10/retire-wordpress-and-shrink-blog/</loc>
+    <lastmod>2026-10-23T13:42:09+08:00</lastmod>
   </url><url>
     <loc>https://www.yewen.us/blog/tag/thinkpad/</loc>
     <lastmod>2026-10-09T16:00:47+08:00</lastmod>
@@ -53,9 +71,6 @@
     <loc>https://www.yewen.us/blog/tag/markdown/</loc>
     <lastmod>2026-09-03T17:20:23+08:00</lastmod>
   </url><url>
-    <loc>https://www.yewen.us/blog/category/blog-manage/</loc>
-    <lastmod>2026-09-03T17:20:23+08:00</lastmod>
-  </url><url>
     <loc>https://www.yewen.us/blog/2026/09/formatted-blog-posts/</loc>
     <lastmod>2026-09-03T17:20:23+08:00</lastmod>
   </url><url>
@@ -69,12 +84,6 @@
     <lastmod>2026-09-01T16:09:58+08:00</lastmod>
   </url><url>
     <loc>https://www.yewen.us/blog/tag/blog/</loc>
-    <lastmod>2026-08-27T18:26:10+08:00</lastmod>
-  </url><url>
-    <loc>https://www.yewen.us/blog/tag/hugo/</loc>
-    <lastmod>2026-08-27T18:26:10+08:00</lastmod>
-  </url><url>
-    <loc>https://www.yewen.us/blog/tag/wordpress/</loc>
     <lastmod>2026-08-27T18:26:10+08:00</lastmod>
   </url><url>
     <loc>https://www.yewen.us/blog/2026/08/migration-to-hugo/</loc>
@@ -2225,13 +2234,7 @@
     <loc>https://www.yewen.us/blog/2013/04/optimize-128m-ram-buyvm-vps/</loc>
     <lastmod>2014-05-23T17:21:47+08:00</lastmod>
   </url><url>
-    <loc>https://www.yewen.us/blog/tag/mysql/</loc>
-    <lastmod>2014-05-23T17:21:47+08:00</lastmod>
-  </url><url>
     <loc>https://www.yewen.us/blog/tag/nginx/</loc>
-    <lastmod>2014-05-23T17:21:47+08:00</lastmod>
-  </url><url>
-    <loc>https://www.yewen.us/blog/tag/php/</loc>
     <lastmod>2014-05-23T17:21:47+08:00</lastmod>
   </url><url>
     <loc>https://www.yewen.us/blog/tag/php-fpm/</loc>

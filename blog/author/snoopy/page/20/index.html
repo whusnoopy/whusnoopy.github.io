@@ -16,7 +16,7 @@
   
   
 </head><body>
-<aside class="mirror-notice" data-pagefind-ignore>本站为备用镜像 · 内容更新于 <time>2026-10-23 11:55 CST</time> · <a href="https://www.yewen.us/">前往主站</a></aside>
+<aside class="mirror-notice" data-pagefind-ignore>本站为备用镜像 · 内容更新于 <time>2026-10-23 13:48 CST</time> · <a href="https://www.yewen.us/">前往主站</a></aside>
 
   <header class="site-header">
     <div class="site-header__inner">
@@ -49,6 +49,55 @@
     
     
     <section aria-label="snoopy文章列表">
+      
+        <article class="article article--summary h-entry">
+  <header class="article-header">
+    <h2 class="article-title"><a class="u-url p-name" href="/blog/2015/09/ncdu-on-os-x/">OS X 下好用的磁盘空间分析工具: ncdu</a></h2>
+    
+<p class="post-meta">
+  <time class="dt-published" datetime="2015-09-18T08:56:25&#43;08:00" data-pagefind-meta="date">2015年9月18日</time>
+</p>
+
+
+  </header>
+  <div class="article-content e-content">
+    <p>之前用过一个叫 <a href="http://www.daisydiskapp.com/" target="_blank">Daisy Disk</a> 的软件, 可以在 OS X 下扫描指定文件夹或磁盘, 用多层环形图的方式来展示不同目录的磁盘大小占用, 方便分析哪些东西在吃空间. 这货做的很赞, 各处都是满分推荐, 据说新版性能更大幅提升, UI 做的也漂亮, Windows 下反正没找到可以匹敌的 (如果你知道有更好的欢迎告诉我, 最好还是免费可用的)</p>
+<p>不过 Daisy Disk 好归好, 却只能免费试用, 要长用得买, 价格是 $9.99, 还是有点肉疼, 而标榜清高不用盗版软件的狗又不愿意去用破解. 还好找到了个还比较合适的替代品, 就是标题里说的 ncdu, 相比起来可以认为是命令行版的 Daisy Disk, 直接在终端下运行, 用键盘操作, 也很是合 Geek 的口味, 只是偶有不够智能 (后面会说)</p>
+<p>ncdu 的官网在: <a href="http://dev.yorhel.nl/ncdu" target="_blank">http://dev.yorhel.nl/ncdu</a></p>
+<h2 id="安装">安装</h2>
+<p>OS X 下可以用 brew 方便的安装</p>
+
+  <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>brew install ncdu</span></span></code></pre></div>
+<h2 id="使用">使用</h2>
+<p>通过 <code>ncdu -h</code> 查看帮助, 其实都很简单, 一般扫本机简单的用这个命令就可以了:</p>
+
+  <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ncdu / --exclude /Volumes</span></span></code></pre></div>
+<p>注意到了上面这个命令其实还不够简单, 加了个 <code>--exclude</code> 的参数, 这个是因为 ncdu 不会智能跳过其他挂载点, 如果你挂了移动硬盘或连了网络硬盘, 他会一并扫描, 这就是前面说的不够智能的地方</p>
+<p>如果只是扫个人文件夹, 不涉及到挂载点, 倒是可以很简单就可以实现:</p>
+
+  <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ncdu ~</span></span></code></pre></div>
+<p>如果需要分析移动硬盘上的占用也是可以的, 直接指定扫描目录为挂载点就行了, 比如我要扫叫 <code>YEW_HDD</code> 的移动硬盘:</p>
+
+  <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ncdu /Volumes/YEW_HDD</span></span></code></pre></div>
+<h2 id="附注">附注</h2>
+<p>其实 Daisy Disk 的确是一个很赞的软件, 如果不习惯命令行界面, 也不像我这样抠门可以去买一个</p>
+<p>Mac Rumors 都在发新版时做了推荐: <a href="http://www.macrumors.com/2015/09/03/daisydisk-major-design-speed-overhaul/" target="_blank">http://www.macrumors.com/2015/09/03/daisydisk-major-design-speed-overhaul/</a></p>
+<p>也被 36kr 推荐: <a href="http://36kr.com/p/5037316.html" target="_blank">http://36kr.com/p/5037316.html</a></p>
+
+  </div>
+  
+  <footer class="article-footer">
+    
+      <span>分类：<a href="/blog/category/tech-notes/">技术手记</a></span>
+    
+    
+      <span>标签：<a href="/blog/tag/daisy-disk/">Daisy Disk</a>、<a href="/blog/tag/ncdu/">ncdu</a>、<a href="/blog/tag/os-x/">OS X</a>、<a href="/blog/tag/%E7%A3%81%E7%9B%98%E7%AE%A1%E7%90%86/">磁盘管理</a></span>
+    
+  </footer>
+
+
+</article>
+
       
         <article class="article article--summary h-entry">
   <header class="article-header">
@@ -676,53 +725,6 @@
     
     
       <span>标签：<a href="/blog/tag/%E4%BA%91%E5%8D%97/">云南</a>、<a href="/blog/tag/%E6%97%85%E6%B8%B8/">旅游</a>、<a href="/blog/tag/%E8%9C%9C%E6%9C%88/">蜜月</a>、<a href="/blog/tag/%E8%A5%BF%E5%8F%8C%E7%89%88%E7%BA%B3/">西双版纳</a></span>
-    
-  </footer>
-
-
-</article>
-
-      
-        <article class="article article--summary h-entry">
-  <header class="article-header">
-    <h2 class="article-title"><a class="u-url p-name" href="/blog/2015/04/honeymoon-to-yunnan-part5/">云南蜜月游记 Part5</a></h2>
-    
-<p class="post-meta">
-  <time class="dt-published" datetime="2015-04-20T14:07:00&#43;08:00" data-pagefind-meta="date">2015年4月20日</time>
-</p>
-
-
-  </header>
-  <div class="article-content e-content">
-    <h2 id="day5-32-十二-购物-石林">Day5 3.2 (十二) 购物, 石林</h2>
-<p>今天是旅行团昆明大理丽江部分的最后一天游玩, 喵和狗报的还有西双版纳的两天, 但大部分人到此结束, 所以重头戏先购物</p>
-<p>早上起来先穿过半个昆明城区去看翡翠馆, 途径红塔基地, 经过前一天回昆明路上放的各种中央台有关玉石节目的合辑, 加上这个翡翠馆里各种忽悠, 以及导游各种有意无意的暗示 &ldquo;云南现在就靠旅游业, 你们应该多花点钱支持下我们, 你看你们的团费明显不够玩应该自己也知道吧&rdquo;, 还是有不少人在里面慢慢逛和买</p>
-<p>跟家喵在里面随便看看, 贵的玉器的确还是很漂亮的, 出来看外面其实是云南民族文化村, 发的购物胸牌其实是可以进这边, 那就干脆过去自己玩, 只可惜一开始没留意到, 草草逛下就按点回到大巴上, 结果有其他人在纠结购物, 对这种迟到行为导游和司机明显还是各种容忍和鼓励消费, 白在车上等了那么久, 说好两个小时结果花了快三个小时</p>
-<p>然后去另一处看黄龙玉, 新兴的玉类, 看介绍是和温相夫人还是有莫大关系, 对这个没兴趣, 耗到点直接领券去旁边吃过桥米线, 不得不说旅行社安排的这个米线太烂了, 都不如在内地随便找个挂了云南米线牌子的店做的好</p>
-<figure class="wp-caption alignnone" style="max-width: 750px">
-<a href="/blog/wp-content/uploads/2015/04/IMG_1074.jpg"><img src="/blog/wp-content/uploads/2015/04/IMG_1074.jpg" alt="石林到此一游" width="750" height="500" class="size-full wp-image-2558" /></a> 石林到此一游
-</figure>
-<p>买买买之后去到石林, 又是要购买景区电瓶车票并全团转给景区导游, 电瓶车票略贵, 不过导游倒是很规范, 5A 景区还是有其稍好一面的. 石林里很大, 走路游览还是不太可能, 而且考虑到景区导游的价值, 电瓶车票还算划算</p>
-<figure class="wp-caption alignnone" style="max-width: 750px">
-<a href="/blog/wp-content/uploads/2015/04/IMG_1102.jpg"><img src="/blog/wp-content/uploads/2015/04/IMG_1102.jpg" alt="石林里民俗表演的老人" width="750" height="500" class="size-full wp-image-2559" /></a> 石林里民俗表演的老人
-</figure>
-<p>昆明附近应该是彝族聚集地, 石林这边称呼就又要顺着改成 阿诗玛 和 阿黑哥, 又是一个经典电影的名字, 不过反正我都没看过&hellip; 另外记得以前阿诗玛的烟也挺出名的, 现在好像也没了</p>
-<figure class="wp-caption alignnone" style="max-width: 750px">
-<a href="/blog/wp-content/uploads/2015/04/IMG_1130.jpg"><img src="/blog/wp-content/uploads/2015/04/IMG_1130.jpg" alt="石林随拍" width="750" height="500" class="size-full wp-image-2560" /></a> 石林随拍
-</figure>
-<p>带小朋友出来玩也还是挺累的, 跟团每天都有点睡眠不足, 而且行程都比较赶, 到这天已经明显有小朋友不太行了, 被直接留景区门口留个大人照顾</p>
-<p>从石林出来就近吃饭吃饭, 吃饭的地方有现场拍卖画作, 听介绍也还算是不错的艺术家, 卖的也还真心不贵, 这算旅游地区的常见模式么? 因为后面在西双版纳也遇到过类似的</p>
-<p>回昆明到大部队落脚的酒店后和旅行团分开, 由另外的商务车拉去昆明机场, 准备转机去西双版纳. 旅行社都安排的午夜红眼航班, 在昆明机场耗了很久, 乘坐的云南这边的廉航翔龙航空, 乘客应该都是各旅行团, 碰上各种没节操不懂事的人</p>
-<p>在西双版纳落地后感觉和清迈很像, 机场都不大, 离市区也挺近, 气候房子什么的也差不多, 接机的司机接上人后把我们分到好几个酒店, 应该是各种抄近道走的都跟乡间小路一样, 半途还嘀咕不是吧这好歹是个地级市而且是旅游区怎么这么荒凉, 到酒店时快一点</p>
-
-  </div>
-  
-  <footer class="article-footer">
-    
-      <span>分类：<a href="/blog/category/blabla/tour/">旅行</a></span>
-    
-    
-      <span>标签：<a href="/blog/tag/%E4%BA%91%E5%8D%97/">云南</a>、<a href="/blog/tag/%E6%97%85%E6%B8%B8/">旅游</a>、<a href="/blog/tag/%E7%9F%B3%E6%9E%97/">石林</a>、<a href="/blog/tag/%E8%9C%9C%E6%9C%88/">蜜月</a>、<a href="/blog/tag/%E8%A5%BF%E5%8F%8C%E7%89%88%E7%BA%B3/">西双版纳</a></span>
     
   </footer>
 

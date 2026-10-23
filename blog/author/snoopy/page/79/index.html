@@ -16,7 +16,7 @@
   
   
 </head><body>
-<aside class="mirror-notice" data-pagefind-ignore>本站为备用镜像 · 内容更新于 <time>2026-10-23 11:55 CST</time> · <a href="https://www.yewen.us/">前往主站</a></aside>
+<aside class="mirror-notice" data-pagefind-ignore>本站为备用镜像 · 内容更新于 <time>2026-10-23 13:48 CST</time> · <a href="https://www.yewen.us/">前往主站</a></aside>
 
   <header class="site-header">
     <div class="site-header__inner">
@@ -49,6 +49,72 @@
     
     
     <section aria-label="snoopy文章列表">
+      
+        <article class="article article--summary h-entry">
+  <header class="article-header">
+    <h2 class="article-title"><a class="u-url p-name" href="/blog/2006/08/%E6%9C%80%E5%A4%A7%E5%8C%B9%E9%85%8D%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95/">最大匹配(匈牙利算法)</a></h2>
+    
+<p class="post-meta">
+  <time class="dt-published" datetime="2006-08-05T20:09:00&#43;08:00" data-pagefind-meta="date">2006年8月5日</time>
+</p>
+
+
+  </header>
+  <div class="article-content e-content">
+    
+  <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">// ** Start of MaximumMatch *******************************
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// Name: MaximumMatch by Hungray O(n^3)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// Description: mat is the adjacency matrix, nx,ny are the size of x and y,
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// fy is used for marking whether the k-th node is visited, matx[x] means x
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// match matx[x], maty[y] means y match maty[y], actually, matx[x] is useless,
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// all the arrays start at 1
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> nx,ny,mat[MAXN][MAXN],fy[MAXN],matx[MAXN],maty[MAXN];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">path</span>(<span style="color:#66d9ef">int</span> u)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> v;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span>(v<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>;v<span style="color:#f92672">&lt;=</span>ny;v<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>((mat[u][v])<span style="color:#f92672">&amp;&amp;</span>(fy[v]<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0</span>)) {
+</span></span><span style="display:flex;"><span>            fy[v]<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>((maty[v]<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0</span>)<span style="color:#f92672">||</span>(path(maty[v]))) {
+</span></span><span style="display:flex;"><span>                matx[u]<span style="color:#f92672">=</span>v;
+</span></span><span style="display:flex;"><span>                maty[v]<span style="color:#f92672">=</span>u;
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span>(<span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>            } <span style="color:#75715e">// end of if((maty[v]...
+</span></span></span><span style="display:flex;"><span>        } <span style="color:#75715e">// end of if((mat[u][v]...
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span>(<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>} <span style="color:#75715e">// end of int path()
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">MaximumMatch</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> i,ret<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    memset(matx,<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,<span style="color:#66d9ef">sizeof</span>(matx));
+</span></span><span style="display:flex;"><span>    memset(maty,<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,<span style="color:#66d9ef">sizeof</span>(maty));
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span>(i<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>;i<span style="color:#f92672">&lt;=</span>nx;i<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(matx[i]<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>            memset(fy,<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,<span style="color:#66d9ef">sizeof</span>(fy));
+</span></span><span style="display:flex;"><span>            ret<span style="color:#f92672">+=</span>path(i);
+</span></span><span style="display:flex;"><span>        } <span style="color:#75715e">// end of if(matx[i]...
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span>(ret);
+</span></span><span style="display:flex;"><span>} <span style="color:#75715e">// end of int MaximumMatch()
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// ** End of MaximumMatch *********************************
+</span></span></span></code></pre></div>
+
+  </div>
+  
+  <footer class="article-footer">
+    
+      <span>分类：<a href="/blog/category/student/contests/">竞赛生涯</a>、<a href="/blog/category/tech-notes/">技术手记</a></span>
+    
+    
+      <span>标签：<a href="/blog/tag/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95/">匈牙利算法</a>、<a href="/blog/tag/%E6%9C%80%E5%A4%A7%E5%8C%B9%E9%85%8D/">最大匹配</a>、<a href="/blog/tag/%E6%A0%87%E7%A8%8B/">标程</a>、<a href="/blog/tag/%E9%9B%86%E8%AE%AD/">集训</a></span>
+    
+  </footer>
+
+
+</article>
+
       
         <article class="article article--summary h-entry">
   <header class="article-header">
@@ -462,72 +528,6 @@
     
       <span>分类：<a href="/blog/category/blabla/">碎碎念</a>、<a href="/blog/category/blog-manage/">博客管理</a></span>
     
-    
-  </footer>
-
-
-</article>
-
-      
-        <article class="article article--summary h-entry">
-  <header class="article-header">
-    <h2 class="article-title"><a class="u-url p-name" href="/blog/2006/06/%E6%96%B0%E5%9B%9B%E7%BA%A7%E8%80%83%E8%AF%95%E6%8A%A5%E5%91%8A/">新四级考试报告...</a></h2>
-    
-<p class="post-meta">
-  <time class="dt-published" datetime="2006-06-24T16:42:00&#43;08:00" data-pagefind-meta="date">2006年6月24日</time>
-</p>
-
-
-  </header>
-  <div class="article-content e-content">
-    
-  <div class="highlight wrap-code"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>发信人: iBook (笨狗dd~/偶像Party CTO), 信区: EnglishTest
-</span></span><span style="display:flex;"><span>标  题: 新四级考试报告...
-</span></span><span style="display:flex;"><span>发信站: 珞珈山水BBS站 (Sat Jun 24 14:21:19 2006), 转信
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>上面居然有人说等我的.本来就想来说一下 :)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>新四级改了很多地方,跟我们一直以来的风格不一样.首先,顺序改了,作文移到最开始,然后是一篇1k2的快速阅读,接下来是35%的听力,卷面写的是35分钟,但是今天实考估计有至少40分钟,然后是一篇短文填空,不是完形,是15个词填10个空,再是2篇传统的阅读理解,接下来是所谓的4选2,不过好像其实是3选2,完形填空/改错(2选1,卷面是什么就做什么),今年是完形,最后是5个翻译,汉译英题型改了,原来的4篇阅读理解现在还是4篇,有一篇提前到作文后听力前,15分钟的快速阅读,大纲上写的是1k-1k2的词汇量,然后是7个Y/N/NG的选择+3个简单回答问题,另一篇是听力之后,有两种形式(我看到的预测卷上的),一个是短文填空,给15个词填10个空,有点类似完形填空,不过又不是一样的,15个词往往大部分不认识...还有一种是阅读后简短回答5个问题.在这个后面就是2篇传统阅读了.
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>其他的.听力改动上,原来的10个小对话现在成了8个小对话+2个长对话,前面8个问题,后面是3+4或者4+3个问题,这里多了5个选择.后面的3段对话没变,还是10个选择.然后是新加的第三部分,一篇短文,抠出8个单词(前面),3个句子(后面),然后听写补充完整,这个短文会读3遍,其中第二遍会稍微慢那么一点,要听写的句子后面有一个比较长的停顿,其他2遍都是一气读过去的.
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>阅读后面是4选2.具体上面有解释了.
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>以上是感觉.下面说我觉得应该的应考.
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>词汇是第一的,有词汇了就可以什么都不怕.平时做点练习熟悉题型就好了.
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>考试时的风格:9:00发卷,填完考号后可以看到能做的有作文,翻译和听力的PartIII,可以先看作文题目,打个腹稿,或者把翻译先心里搞定.30分钟的作文时间是不让拆试卷的,我觉得都拿来写作文太浪费,我今天是20min以内搞定作文然后搞定了翻译,把听力PartIII先过了一遍,对文章大意有理解.
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>30min的时候开试卷,快速阅读,真的是快...先看好问题然后去看文章,后面问题都是前面的原文,或者是一句话改了个顺序如此的,问题都是有顺序的,要么10个都有顺序,要么Y/N/NG有顺序且问答有顺序,两个顺序有重叠的.看到一个问题划出来然后搞定之.快点填完,因为只有15分钟,开考后45分钟收答题卡I,就是上面两个部分.
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>听力没什么好说的.平时多听一下有感觉就好.先把答案看一遍,听的时候有选择性一点,建议前面能快点搞定然后把所有问题都过一遍,因为虽然听力三个Part前都有一段罗索,但是每个Part内部是不停的.比如第一部分两个长对话和第二部分3个短文之间都是问题完了就直接听下一个的. 说一下第三部分,先把文章大意读懂是很重要的,有些空都可以不听也能写出来,听的时候,第一遍单词基本都能出来,顺手写试卷上吧,句子时间来不及就写个大意,第二遍就可以补充完整了,听力好的可以一字不差,当然这里考试要求只要意思对了也是给分的.
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>那个15填10的真的是bt...就说那个单词,15个我一般是10个以上的不认识(当然本来我词汇量就小...),除了这个,就跟一般的完形填空是一个道理了,读一遍然后填,然后再读一遍验证(做3遍要速度很快,不然还是2遍好了),据说这里可能是回答问题,但是我有那个预测卷但是没做,保持沉默.普通阅读理解没什么好说的.
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>完形填空.这个不说了...改错,我做的卷子都没有,然后我差点以为没改错的时候有n个人找到了有改错的卷子...也没什么好说的,要提醒的是10个都是错,没一个对的.幸亏今天上天保佑,卷子上是我会做的完形填空...
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>翻译,一个句子,砍掉一半,给出你没有的一半的中文解释然后翻译成英文,没什么好说的.
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>这里特别强调一个时间,时间很紧迫啊(虽然我是拿了至少15分钟出来玩),推荐翻译和作文一起搞定算了,不然后面都没时间,听力说是35分钟,但是事实上远不止35分钟,加上涂答题卡的时间,我花了43分钟,慢的有花50多分钟的,这也就是说还有3篇阅读(25分钟),1篇完形填空(15分钟),5个翻译(5分钟)要在30多分钟内搞定,所以翻译能占有作文的时间做也就这样,最好还能把听力PartIII给过一遍.今天我写完还有10多分钟,但是交卷的时候很多人还在做那个15选10,很多人都在乱选了...时间啊,时间
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>--
-</span></span><span style="display:flex;"><span>           &gt;&gt;最希望的阵容&gt;&gt;           Owen
-</span></span><span style="display:flex;"><span>█████████                         Rooney
-</span></span><span style="display:flex;"><span>█████████  &gt;我爱世界杯&lt;     J.Cole     Lampard   Beckham
-</span></span><span style="display:flex;"><span>█████████  &gt;我爱英格兰&lt;   A.Cole    Gerrard       G.Neville
-</span></span><span style="display:flex;"><span>█████████                        Terry  Ferdinand
-</span></span><span style="display:flex;"><span>█████████                           Robinson
-</span></span><span style="display:flex;"><span>※ 来源:·珞珈山水BBS站 bbs.whu.edu.cn·[FROM: 202.114.121.*]</span></span></code></pre></div>
-
-  </div>
-  
-  <footer class="article-footer">
-    
-      <span>分类：<a href="/blog/category/blabla/">碎碎念</a></span>
-    
-    
-      <span>标签：<a href="/blog/tag/%E5%9B%9B%E7%BA%A7/">四级</a>、<a href="/blog/tag/%E5%A4%A7%E5%AD%A6%E7%94%9F%E6%B4%BB/">大学生活</a>、<a href="/blog/tag/%E8%80%83%E8%AF%95/">考试</a>、<a href="/blog/tag/%E8%8B%B1%E8%AF%AD/">英语</a></span>
     
   </footer>
 

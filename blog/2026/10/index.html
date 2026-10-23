@@ -16,7 +16,7 @@
   
   
 </head><body>
-<aside class="mirror-notice" data-pagefind-ignore>本站为备用镜像 · 内容更新于 <time>2026-10-23 11:55 CST</time> · <a href="https://www.yewen.us/">前往主站</a></aside>
+<aside class="mirror-notice" data-pagefind-ignore>本站为备用镜像 · 内容更新于 <time>2026-10-23 13:48 CST</time> · <a href="https://www.yewen.us/">前往主站</a></aside>
 
   <header class="site-header">
     <div class="site-header__inner">
@@ -44,6 +44,10 @@
   
   
   
+  
+    
+      
+    
   
     
       
@@ -1743,6 +1747,87 @@
   
   
   <section aria-label="2026 年 10 月文章列表">
+    
+      <article class="article article--summary h-entry">
+  <header class="article-header">
+    <h2 class="article-title"><a class="u-url p-name" href="/blog/2026/10/retire-wordpress-and-shrink-blog/">下线 WordPress，躲过 PHP 漏洞，瘦身 Hugo 输出</a></h2>
+    
+<p class="post-meta">
+  <time class="dt-published" datetime="2026-10-23T13:42:09&#43;08:00" data-pagefind-meta="date">2026年10月23日</time>
+</p>
+
+
+  </header>
+  <div class="article-content e-content">
+    <p>八月底<a href="/blog/2026/08/migration-to-hugo/">把博客迁移到 Hugo</a>，九月初又<a href="/blog/2026/09/formatted-blog-posts/">把历史文章都按 Markdown 整理了一遍</a>，之后正常写了几篇新文章。按迁移时的规划，把旧 WordPress 留在 VPS 上空跑一段时间，以备还有啥需要迁移的</p>
+<p>这几天趁着 Tibo 不停重置 Codex 的使用额度，再让 AI 验证迁移确实没有遗漏，把旧系统下线并卸载依赖，顺便把之前模板在每个页面里完整输出的侧边栏做了下优化瘦身</p>
+<h2 id="下线旧-wordpress">下线旧 WordPress</h2>
+<p>从八月底切换到 Hugo 开始，访问就已经全部走 Hugo 生成的静态文件，nginx 配置里也没有再把请求转发给 PHP</p>
+<p>这次让 AI 先帮忙核查了一遍，确认现在的文章、图片、RSS、搜索和评论标识都不需要 WordPress，旧站里的图片也都已经在新站找到对应文件，已有的文件和数据库备份继续保留，才开始动手</p>
+<p>10 月 20 日先停掉 MySQL 和 PHP-FPM，释放空跑占用的 VPS 内存，禁用开机启动，顺带把之前人肉维护的每日备份到 Dropbox 和 Google Drive 的脚本也停了。同时让 AI 修了一个 RSS 的小问题，原来 <code>/blog/feed/</code> 可以正常访问，但少了最后那个斜杠的 <code>/blog/feed</code> 会返回 404，现在加了跳转</p>
+<p>停掉后又观察了一天，确认正常访问没受影响，21 日把 PHP、MySQL 相关的软件包卸载，再清掉旧 WordPress 目录和数据库文件，也省得每次 <code>apt upgrade</code> 还要更新一堆没用的包</p>
+<p>非常巧，<a href="https://www.php.net/archive/2026.php#2026-10-21-5">PHP 官方在 10 月 21 日发布紧急安全更新</a>，修复两个可能导致未认证远程代码执行的严重漏洞（<code>CVE-2026-109618</code> 和 <code>CVE-2026-109619</code>）。我这边下午刚把 PHP 卸载完，当天就赶上了紧急补丁发布。八月底公开访问就已经不经过 PHP，这次连运行环境也收掉了，刚好省了追着看影响范围和打补丁的事，庆幸有时候抠门省事也能少操一点心</p>
+<p>这也符合之前迁移到 Hugo 的目标之一，减少对 WordPress、PHP 等的依赖，只放静态文件在 VPS 上，未来再要迁移也容易很多</p>
+<h2 id="同步-whusnoopygithubio">同步 whusnoopy.github.io</h2>
+<p>GitHub 很早就有这个用自己用户名开头、以 github.io 结尾的 GitHub Pages 托管服务，早先打算折腾 Hugo，也是从考虑 GitHub Pages 默认支持的 Jekyll 看起，后面发现还是用 Hugo 更符合自己的需求</p>
+<p>这次顺带让 Codex 完成了对 <a href="https://whusnoopy.github.io">whusnoopy.github.io</a> 的镜像流程，未来如果懒得自己维护 VPS 了，再配好自定义域名和 DNS，把它改成主站应该也可以的</p>
+<h2 id="瘦身-hugo-输出">瘦身 Hugo 输出</h2>
+<p>往 github.io 做镜像同步时，发现 Hugo 的输出目录到了 600 MiB+，这个空间占用明显超出预期，原来的 WordPress 站点目录在清理前核查时约 264 MiB。Codex 在分析能否将 github.io 做镜像时还提到，<a href="https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits">GitHub Pages 已发布站点的大小不能超过 1 GB</a>，这一下就用掉了大半</p>
+<p>自己人肉简单看了下是不是附件图片什么的太大了，用 <code>gdu</code> 扫了下也还好，就是旧文章里的图片链接还在 <code>wp-content/uploads</code>，新文章的图片放在 <code>media/posts</code> 下。这些旧地址继续保留，毕竟二十多年的各种历史包袱，能不动就不动，省得哪天又冒出来一个旧链接打不开</p>
+<p>继续看，是最终生成的各种 HTML 文件累积起来太大了，一开始还怀疑是 Tag 和分类太多，导致输出的文件数量过多，后来让 AI 一查，是每个页面重复输出了完整侧边栏导致的</p>
+<p>迁移到 Hugo 时为了保留原来的使用习惯，把右侧按年、月展开的文章归档也搬了过来。这东西在 WordPress 时代用的是 Collapsing Archives，<a href="/blog/2023/01/fix-wordpress-plugin-collapsing-archives-error-on-php8/">之前还为兼容 PHP 8 修过插件</a>，自己用习惯了这一套，希望能继续按年月翻旧文章</p>
+<p>不过之前本站的模板实现就是把二十多年的年月、八百多篇文章的标题和链接，以及折叠用的按钮、列表结构，全部生成到每一个页面里，哪怕后来加了默认收起来等 JS 行为，实际上每页光侧边栏就有大约 216 KiB 的 HTML</p>
+<p>算上文章分类、标签、年月归档和各种分页，整站的两千多个页面，把这部分内容原封不动输出了两千多遍。难怪文章和图片都没怎么变化，生成出来的整站文件却有 600 MiB+</p>
+<p>找到问题就改呗，现在虽然不用 WordPress 动态输出，但可以把侧边栏依赖的文章归档数据提取到一个共用的 <code>archive-index.json</code>，页面里只留容器，由浏览器读取数据来生成年月列表，展开某个月时再创建里面的文章链接。这样同一份数据不用在每个 HTML 里塞一份，也可以利用浏览器缓存，跨页面访问时不必每次都重新传输整份数据，原来按年月展开、记住展开状态的功能都还在</p>
+<p>这一波整完，单页侧边栏从 216 KiB 降到 8.3 KiB，整站从 632 MiB 降到 141 MiB</p>
+<p>后面继续把文章分类和常用标签也用类似的方式处理，两块共用一份 <code>sidebar-index.json</code>，再把分页模板输出里那些没必要的缩进和换行裁掉。最后结果是</p>
+<table>
+	<thead>
+			<tr>
+					<th>构建状态</th>
+					<th style="text-align: right">单页侧边栏大小</th>
+					<th style="text-align: right">整站文件大小</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>优化前</td>
+					<td style="text-align: right">约 216 KiB</td>
+					<td style="text-align: right">约 632 MiB</td>
+			</tr>
+			<tr>
+					<td>年月归档改用共享 JSON</td>
+					<td style="text-align: right">约 8.3 KiB</td>
+					<td style="text-align: right">约 141 MiB</td>
+			</tr>
+			<tr>
+					<td>分类、标签及分页继续优化</td>
+					<td style="text-align: right">约 1.9 KiB</td>
+					<td style="text-align: right">约 125 MiB</td>
+			</tr>
+	</tbody>
+</table>
+<p>后面的优化收益没那么大，不过现在整个输出约 125 MiB，已经比之前含 WP 系统的旧站目录小了，每次发布和同步 github.io 镜像需要处理的数据也少了很多，离 GitHub Pages 的容量上限也还远，满意</p>
+<h2 id="随记">随记</h2>
+<blockquote>
+<p>八月底迁移时想着后面就安心写东西吧，结果这两个月又断断续续折腾了不少。现在旧系统退役，生成文件也瘦了一大圈，希望接下来能多写几篇文章，少折腾点博客本身吧</p>
+</blockquote>
+<p>现在我也变成用 AI 来输出内容的懒人了，上面引用这部分是 AI 输出的原文，更前面的内容是让 AI 用我的文风出的草稿，我改了一遍后的结果。有好有坏吧，先保持自己的想法记录输出，再继续平衡内容中的机械味和活人感</p>
+
+  </div>
+  
+  <footer class="article-footer">
+    
+      <span>分类：<a href="/blog/category/blog-manage/">博客管理</a></span>
+    
+    
+      <span>标签：<a href="/blog/tag/hugo/">Hugo</a>、<a href="/blog/tag/wordpress/">wordpress</a>、<a href="/blog/tag/php/">PHP</a>、<a href="/blog/tag/mysql/">MySQL</a></span>
+    
+  </footer>
+
+
+</article>
+
     
       <article class="article article--summary h-entry">
   <header class="article-header">

@@ -16,7 +16,7 @@
   
   
 </head><body>
-<aside class="mirror-notice" data-pagefind-ignore>本站为备用镜像 · 内容更新于 <time>2026-10-23 11:55 CST</time> · <a href="https://www.yewen.us/">前往主站</a></aside>
+<aside class="mirror-notice" data-pagefind-ignore>本站为备用镜像 · 内容更新于 <time>2026-10-23 13:48 CST</time> · <a href="https://www.yewen.us/">前往主站</a></aside>
 
   <header class="site-header">
     <div class="site-header__inner">
@@ -46,6 +46,46 @@
   </header>
   
   <section aria-label="posts文章列表">
+    
+      <article class="article article--summary h-entry">
+  <header class="article-header">
+    <h2 class="article-title"><a class="u-url p-name" href="/blog/2005/08/%E6%98%A8%E5%A4%A9whu%E7%9A%84%E4%B8%AA%E4%BA%BA%E8%B5%9B/">昨天WHU的个人赛</a></h2>
+    
+<p class="post-meta">
+  <time class="dt-published" datetime="2005-08-09T23:33:00&#43;08:00" data-pagefind-meta="date">2005年8月9日</time>
+</p>
+
+
+  </header>
+  <div class="article-content e-content">
+    <p>队里自己的比赛,本来说是Team的,结果临时改成Personal,稍微有点措手不及的说</p>
+<p>做题策略上出现了很大的问题,一开始是按照惯例扫题,但是本次题目长了点,看懂A和B后都感觉没戏,A的BFS优化太复杂,B的那个数据结构不好处理</p>
+<p>准备看C的时候听别人说E,扫了一下发现跟HNOI2002的第一题有很大相似(样例数据),直接放弃,去看C和D,C马陈告诉了我基本的意思,D我看明白了一些,都是感觉没戏的.</p>
+<p>整个机房都是一股悲观的情调,而我也在抱怨,听zap说题目其实也不难,A和B慢慢弄还是能出来的,所以想了想就是B还有点搞头,于是想B的数据结构.不知道是佩服我心理素质好还是该bs我没有上进心,这个时候居然还因为拉肚子去厕所大号了一把,悠哉乐哉.-_____-b</p>
+<p>把B想破了头也没想出来一个比较好的树表达方式,对指针的操作还是太麻烦了点.要考虑建立以及搜索的方便性,两者之间结合点不好找.</p>
+<p>ddoonn__cc等一干人都开始弄E比较久了,重新去看了看E的题目,发现比起HNOI2002来还是要简单很多,只有两个运算LOOP和OP,一乘一加,并且变量只有一个,OP后面还不能接n.比起HNOI2002来简化了至少一个数量级的难度.</p>
+<p>粗略想了想应该如何操作就开始动手了,途中遇见的困难还是比较方便的得到解决了,但是算法离一开始想的还是有不少的差距,虽然都是模拟.关于递归函数的参数选择上就变了好几次才完全实现所想的的那些功能.在最后提交前对于程序中一个地方还是不很确定,因为最开始实现写那个部分的时候,是在我的参数改变前,但是后来因为过测试数据也没什么问题,所以没有提出比较BT的数据自己测试就直接提交了.WA了马上意识到那个地方出了毛病,自己写了个比较强的数据一测,果然,修改后提交,AC,前后不到十分钟.</p>
+<p>在做E的时候其实也抽空想了一下B,突然开窍的提出了一个很好的数据结构,不需要在输出数据的时候再去遍历树,可以直接输出的.并且在建树的时候并不会麻烦多少,想通了这一点,感觉写代码就是一件手到擒来的事情了,稍微考虑了一下输入怎么处理后看了看时间,不够:(写了写主要的处理过程,但是最主要的输入部分还没有开始写,比赛结束了.</p>
+<p>吃饭的时候想了想,应该比较好处理的说,同时跟Knuthocean放话说半个小时搞定(没有说大话的成分,考虑了一下可能情况后作出的理性判断),同时赌上了一顿BG.回来后因为一开始的思路就比较好,所以一直没有走什么弯路的搞定了.但是在处理输入的&rsquo;)&lsquo;和&rsquo;,&lsquo;方面考虑不够全面,以至还进行了一次比较慢的调试并且修改了一下递归内部结构.递交后一次AC,但是比约定的时间慢了2分钟,含恨啊&hellip;&hellip;</p>
+<p>一些教训:<br>
+1.以后不要太贪图快,读题快并且仔细现在已经是一个优点了,但是在处理算法方面还是显得有些急躁并且考虑不周全.<br>
+2.对于E题,一开始纯粹是自己在吓自己,直接导致题目都没仔细看.对E的算法设计也显过于急躁,在思路没有理顺之前就贸然开写了,然后导致在写的过程中几乎对整个程序都进行了改动,并且直接导致了后来对一个for语句的判断不清,致使那次WA然后被罚时20min(虽然事后看来也不影响什么).<br>
+3.对于B,则在判断输入的时候忽略了一个应该记住的细节问题,那就是&rsquo;(&lsquo;和&rsquo;,&lsquo;绝对是单个出现的,但是&rsquo;)&lsquo;后面还是可以接&rsquo;,&lsquo;或者&rsquo;)&lsquo;的,所以本该25min内搞定的读入建树因为调试和修改超出了预定达到32min,错失一顿BG倒是小事,但是如果是比赛,7min对于一个简单题的影响是很大的.</p>
+
+  </div>
+  
+  <footer class="article-footer">
+    
+      <span>分类：<a href="/blog/category/student/contests/">竞赛生涯</a></span>
+    
+    
+      <span>标签：<a href="/blog/tag/whuacm/">WHUACM</a>、<a href="/blog/tag/%E9%9B%86%E8%AE%AD/">集训</a></span>
+    
+  </footer>
+
+
+</article>
+
     
       <article class="article article--summary h-entry">
   <header class="article-header">
@@ -433,41 +473,6 @@
     
     
       <span>标签：<a href="/blog/tag/acm/">ACM</a>、<a href="/blog/tag/kmxs/">KMXS</a>、<a href="/blog/tag/whuacm/">WHUACM</a>、<a href="/blog/tag/%E9%9B%86%E8%AE%AD/">集训</a></span>
-    
-  </footer>
-
-
-</article>
-
-    
-      <article class="article article--summary h-entry">
-  <header class="article-header">
-    <h2 class="article-title"><a class="u-url p-name" href="/blog/2005/06/%E6%9C%89%E4%BA%9B%E4%BA%BA%E6%B3%A8%E5%AE%9A%E8%A6%81%E9%94%99%E8%BF%874%E5%AE%8C/">有些人,注定要错过(4完)</a></h2>
-    
-<p class="post-meta">
-  <time class="dt-published" datetime="2005-06-13T20:20:00&#43;08:00" data-pagefind-meta="date">2005年6月13日</time>
-</p>
-
-
-  </header>
-  <div class="article-content e-content">
-    <p>武汉和郑州之间的不知道哪个部门的电信还是网通反正是有问题,有一段时间老是把电话给打串了.最多的时候一个晚上打了4个电话,中间掉了一次线,打串了两次&hellip;半夜十一点多,被打串的那个哥们也很命苦,在此深表歉意:(</p>
-<p>刚好宿舍的哥们也饱受此苦,于是断定是该死的电信出毛病了,亏我还资助了那么多的电话卡的钱&hellip;</p>
-<p>反正也没什么特别的事情,就这么搁下了.但是一个月的电话都没人接也太不正常了.最近的一个星期,我换了N台电话,手机,小灵通在n个不同的时间打过去,还是渺无音信.写了封信,也没接到回信或者电话说收到信了.</p>
-<p>也许,我们就这么擦肩而过&hellip;</p>
-<p>也许,明天就能拨通那个许久无人接听的电话或者收到她的回信&hellip;</p>
-<p>也许,这个故事只能延续到永远&hellip;</p>
-<p>有些人,注定要错过.</p>
-<p>有些人,注定要错过?</p>
-
-  </div>
-  
-  <footer class="article-footer">
-    
-      <span>分类：<a href="/blog/category/blabla/">碎碎念</a></span>
-    
-    
-      <span>标签：<a href="/blog/tag/%E6%95%85%E4%BA%8B/">故事</a></span>
     
   </footer>
 
