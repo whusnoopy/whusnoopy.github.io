@@ -194,7 +194,7 @@ export async function initArchive(tree = document.querySelector('[data-archive-t
       status.textContent = '暂无文章归档。';
       status.hidden = nodes.length > 0;
     } catch {
-      status.textContent = '归档暂时无法加载，请重试或查看全部归档。';
+      status.textContent = '归档暂时无法加载，请重试或通过顶部导航的 Blog 浏览文章。';
       retry.hidden = false;
     } finally {
       tree.removeAttribute('aria-busy');

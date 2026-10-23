@@ -136,7 +136,7 @@ ul, ol { padding-inline-start: 1.5em; }
   .archive-tree__chevron { transition: none; }
 }
 
-/* 侧边栏分类、标签与更多入口 */
+/* 侧边栏分类与标签 */
 
 [data-sidebar-kind="categories"][aria-busy="true"] [data-sidebar-items] { min-height: calc(var(--sidebar-category-rows, 0) * 1.5em); }
 [data-sidebar-kind="tags"][aria-busy="true"] [data-sidebar-items] { min-height: 12rem; }
@@ -145,7 +145,6 @@ ul, ol { padding-inline-start: 1.5em; }
 .sidebar-count-list span, .tag-cloud span { color: var(--muted); font-size: .85em; }
 .tag-cloud { display: flex; flex-wrap: wrap; gap: .4rem; }
 .tag-cloud a { padding: .18rem .45rem; border: 1px solid var(--border); border-radius: 3px; background: #faf9f6; text-decoration: none; }
-.sidebar-more { margin: .75rem 0 0; font-size: .9rem; }
 
 /* 本地搜索与结果列表 */
 

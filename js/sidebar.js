@@ -87,7 +87,7 @@ export async function initSidebar(root = document.querySelector('[data-sidebar-i
       });
     } catch {
       cards.forEach(({ kind, status, retry }) => {
-        status.textContent = kind === 'categories' ? '分类暂时无法加载，请重试或查看全部分类。' : '标签暂时无法加载，请重试或查看全部标签。';
+        status.textContent = kind === 'categories' ? '分类暂时无法加载，请重试或通过顶部导航的“分类”浏览。' : '标签暂时无法加载，请重试或通过顶部导航的“标签”浏览。';
         status.hidden = false;
         retry.hidden = false;
       });
