@@ -16,7 +16,7 @@
   
   
 </head><body>
-<aside class="mirror-notice" data-pagefind-ignore>本站为备用镜像 · 内容更新于 <time>2026-10-23 14:00 CST</time> · <a href="https://www.yewen.us/">前往主站</a></aside>
+<aside class="mirror-notice" data-pagefind-ignore>本站为备用镜像 · 内容更新于 <time>2026-11-03 16:28 CST</time> · <a href="https://www.yewen.us/">前往主站</a></aside>
 
   <header class="site-header">
     <div class="site-header__inner">
@@ -46,6 +46,47 @@
   </header>
   
   <section aria-label="posts文章列表">
+    
+      <article class="article article--summary h-entry">
+  <header class="article-header">
+    <h2 class="article-title"><a class="u-url p-name" href="/blog/2019/03/python-decorator-conflict-to-gevent/">Python decorator 库和 gevent 冲突的情况</a></h2>
+    
+<p class="post-meta">
+  <time class="dt-published" datetime="2019-03-12T15:45:42&#43;08:00" data-pagefind-meta="date">2019年3月12日</time>
+</p>
+
+
+  </header>
+  <div class="article-content e-content">
+    <p>去年写了两篇分析 decorator 的 blog:</p>
+<ul>
+<li><a href="/blog/2018/05/get-args-of-origin-function-in-python-decorator-chain/" rel="noopener noreferrer" target="_blank">Python 多层 decorator 内获取原始函数参数字典</a></li>
+<li><a href="/blog/2018/09/python-decorator-lib/" rel="noopener noreferrer" target="_blank">Python decorator 库</a></li>
+</ul>
+<p>在线上项目里一直也没有用 pypi 的 decorator 库去替换自己的实现，最近替换后撞上了一些问题，整个问题追查过程也各种艰辛，记录一下</p>
+<p>我们线上用的 flask 0.11.1 + celery 3.1.25 + gevent 1.2.2 在跑任务队列，broken 用的阿里云 redis 2.8，某个周末突然发现 worker 工作不正常，有大量的 db 连接报错，在简短排查后没找到原因，重启整个服务，暂时跳过这个问题，其实后面还在有其他错误，但也没有解决思路</p>
+<p>等周一到公司，团队的人对比了下问题现场和思路，只能发现是 celery worker 会莫名卡死，跑到我们的 k8s 集群上看，对应的 pod 是 running，但是 flower 上看监控是 offline，直接切进 pod 看日志，好几个最后都断在 requests 发请求出去的地方，N 脸懵逼，我们又没升级系统又没动依赖，怎么就会冒出来这个问题</p>
+<p>既然最后死在 requests 那，虽然看后面的 Changelog 没发现有跟我们直接习惯的，但还是先把 requests 版本从 2.19.0 升到 2.21.0，并把依赖的库也同步升级。然而并没有解决问题，还是一样的死，还是一样的错</p>
+<p>后面多看了几个问题现场，只能协助定位还可能会卡死在 db 读写的地方，这个时候开始怀疑 gevent，因为这货帮忙做了 IO 异步优化，强行协程化，而且这个版本也有点老，期间看也有一些可能相关的 Issue，升级 1.4.0 后发现服务起不来，查了下看需要把 celery 升级到 4.x，但 4.x 的 celery 参数序列化从 pickle 改成 json，还要改挺多代码的，只能先搁置</p>
+<p>后面还查了下 celery 的版本问题，我们用的 3.x 是有点老了，但 4.x 那个参数结构该动那个有大所以一直没动，另外也查用 redis 做 broken 的锅，没有任何有效的相关信息</p>
+<p>出问题前我在代码里替换了一版 lock 的实现，以及 lock_decorator 的实现，但是往这边怀疑也不对，因为有的出错的地方并没有用到锁，而且看日志和报错也跟锁没有关系</p>
+<p>等过了一周，第二个周末的时候开脑洞说好像现在有问题的方法都有修饰器包着，而且这些修饰器都用了 decorator 库，也许这里可能有问题？我们的 decorator 用的是 4.3.0，最新的版本是 4.3.2，大致看了下 Changelog，似乎提到有修复协程问题，但是是 python 3.5 的，不过反正不用改代码，先升了再说</p>
+<p>升完后问题真的消失了，那么就来看看到底哪里可能有问题吧。对比期间的变更记录 <a href="https://github.com/micheles/decorator/compare/4.3.0...4.3.2" rel="noopener noreferrer" target="_blank">https://github.com/micheles/decorator/compare/4.3.0&hellip;4.3.2</a>，除了一些文档变化和对 py3.5 的协程修复，比较值得怀疑的是 <a href="https://github.com/micheles/decorator/commit/eb890d98739196b83f1ecb5cb7bcfe9739a9502c" rel="noopener noreferrer" target="_blank">https://github.com/micheles/decorator/commit/eb890d98739196b83f1ecb5cb7bcfe9739a9502c</a> 这个提交，decorator 的原理是在内存里新建一个虚拟文件，把要修饰的方法的相关属性写到这个虚拟文件里，然后通过虚拟文件里的同名方法调装饰器逻辑，装饰器方法里再去调到最终的方法，而这个虚拟文件如果只用 <code>itertools.count()</code>，在 gevent 的协程调度下可能会重名，然后整个代码体系就崩了</p>
+
+  </div>
+  
+  <footer class="article-footer">
+    
+      <span>分类：<a href="/blog/category/tech-notes/">技术手记</a></span>
+    
+    
+      <span>标签：<a href="/blog/tag/decorator/">decorator</a>、<a href="/blog/tag/gevent/">gevent</a>、<a href="/blog/tag/python/">python</a></span>
+    
+  </footer>
+
+
+</article>
+
     
       <article class="article article--summary h-entry">
   <header class="article-header">
@@ -407,117 +448,6 @@
     
     
       <span>标签：<a href="/blog/tag/%E8%8E%AB%E8%8E%AB/">莫莫</a></span>
-    
-  </footer>
-
-
-</article>
-
-    
-      <article class="article article--summary h-entry">
-  <header class="article-header">
-    <h2 class="article-title"><a class="u-url p-name" href="/blog/2018/10/append-machine-learning-3-linear-regression/">补遗: 机器学习手记系列 3 线性回归样例程序</a></h2>
-    
-<p class="post-meta">
-  <time class="dt-published" datetime="2018-10-10T13:57:48&#43;08:00" data-pagefind-meta="date">2018年10月10日</time>
-</p>
-
-
-  </header>
-  <div class="article-content e-content">
-    <blockquote>
-<p>距离 2012 的两三年后（这篇的草稿时间）又过了两三年，这个补遗看起来也烂尾了 -.-</p>
-</blockquote>
-<p>之前在<a href="/blog/2012/10/machine-learning-3-linear-regression/">机器学习手记系列 3: 线性回归和最小二乘法</a>后面留了个问题, 也给了结果, 但是当时说好的程序代码并没给出来, 那个手记系列的坑感觉填不上了, 但是已经刨好的小坑还是填上吧</p>
-<p>现在已经有很多深度学习框架和教程来教这个，自己也忘得差不多了，就不班门弄斧裸写。推荐看一下 <a href="http://zh.gluon.ai/index.html" rel="noopener" target="_blank">动手学深度学习 http://zh.gluon.ai/index.html</a>，Deep Learning 领域大神 李沐 等人在维护（我能凑不要脸的蹭热度说下这是前百度同事我们还一起吃饭打牌来着么）。刨的小坑就按 <a href="http://zh.gluon.ai/chapter_deep-learning-basics/linear-regression-scratch.html" rel="noopener" target="_blank">线性回归的从零开始实现 http://zh.gluon.ai/chapter_deep-learning-basics/linear-regression-scratch.html</a> 里的做法来实现</p>
-<p>先重复下问题</p>
-<blockquote>
-<p>如下式子里不同的阿拉伯数字只是一个符号, 实际表示的可能是其他数字<br>
-967621 = 3<br>
-797321 = 1<br>
-378581 = 4<br>
-422151 = 0<br>
-535951 = 1<br>
-335771 = 0</p>
-<p>根据上述式子, 判断下式等于?<br>
-565441 = ?</p>
-</blockquote>
-<p>这题的脑筋急转弯版本答案是看每个数字有几个圈，就代表几，这样 1/2/3/4/5/7 都是 0 个圈，6/9 是 1 个圈，8 是 2 个圈，所以最后 565441 里面只有 6 有 1 个圈，答案为 1</p>
-<p>按 gluon 上的教程我们也来走一遍，装环境什么的就看 gluon 了，先引入要用的包</p>
-
-  <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> mxnet <span style="color:#f92672">import</span> autograd, nd</span></span></code></pre></div>
-<p>真正做线性回归是没法只用这么一点数据来模拟的，所以我们要先根据真实值来构造一些数据（这里跟 gluon 不一样的是我没有 bias 因子 b，后面也请一并注意）</p>
-
-  <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>num_inputs <span style="color:#f92672">=</span> <span style="color:#ae81ff">9</span>          <span style="color:#75715e"># 特征数，当前问题里的变量数 1-9</span>
-</span></span><span style="display:flex;"><span>num_examples <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000</span>     <span style="color:#75715e"># 样例数，我们会随机生成多少份样例来学习</span>
-</span></span><span style="display:flex;"><span>true_w <span style="color:#f92672">=</span> nd<span style="color:#f92672">.</span>array([<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">1</span>])  <span style="color:#75715e"># 真实值</span>
-</span></span><span style="display:flex;"><span>features <span style="color:#f92672">=</span> nd<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>normal(scale<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, shape<span style="color:#f92672">=</span>(num_examples, num_inputs))  <span style="color:#75715e"># 随机生成数据集</span>
-</span></span><span style="display:flex;"><span>labels <span style="color:#f92672">=</span> nd<span style="color:#f92672">.</span>dot(features, true_w)                                   <span style="color:#75715e"># 数据集对应的结果</span></span></span></code></pre></div>
-<p>初始化模型参数并创建梯度</p>
-
-  <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>w <span style="color:#f92672">=</span> nd<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>normal(scale<span style="color:#f92672">=</span><span style="color:#ae81ff">0.01</span>, shape<span style="color:#f92672">=</span>(<span style="color:#ae81ff">9</span>, <span style="color:#ae81ff">1</span>))
-</span></span><span style="display:flex;"><span>w<span style="color:#f92672">.</span>attach_grad()</span></span></code></pre></div>
-<p>定义模型，我们就是做的矩阵乘法</p>
-
-  <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">linreg</span>(X, w):
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> nd<span style="color:#f92672">.</span>dot(X, w)</span></span></code></pre></div>
-<p>定义损失函数，用平方损失</p>
-
-  <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">squared_loss</span>(y_hat, y):
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> (y_hat <span style="color:#f92672">-</span> y<span style="color:#f92672">.</span>reshape(y_hat<span style="color:#f92672">.</span>shape)) <span style="color:#f92672">**</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span></span></span></code></pre></div>
-<p>定义优化算法，用小批量随机梯度下降（因为我们只用了一个大参数 w，所以还是比 gluon 的样例简单）</p>
-
-  <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">sgd</span>(param, lr, batch_size):
-</span></span><span style="display:flex;"><span>    param[:] <span style="color:#f92672">=</span> param <span style="color:#f92672">-</span> lr <span style="color:#f92672">*</span> param<span style="color:#f92672">.</span>grad <span style="color:#f92672">/</span> batch_size</span></span></code></pre></div>
-<p>训练，取步长 lr 为 0.01，轮次为 1000 轮</p>
-
-  <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">train</span>():
-</span></span><span style="display:flex;"><span>    lr <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.01</span>
-</span></span><span style="display:flex;"><span>    num_epochs <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000</span>
-</span></span><span style="display:flex;"><span>    net <span style="color:#f92672">=</span> linreg
-</span></span><span style="display:flex;"><span>    loss <span style="color:#f92672">=</span> squared_loss
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> epoch <span style="color:#f92672">in</span> range(num_epochs):
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">with</span> autograd<span style="color:#f92672">.</span>record():
-</span></span><span style="display:flex;"><span>            l <span style="color:#f92672">=</span> loss(net(features, w), labels)
-</span></span><span style="display:flex;"><span>        l<span style="color:#f92672">.</span>backward()
-</span></span><span style="display:flex;"><span>        sgd(w, lr, labels<span style="color:#f92672">.</span>size)
-</span></span><span style="display:flex;"><span>        train_l <span style="color:#f92672">=</span> loss(net(features, w), labels)
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> epoch <span style="color:#f92672">%</span> <span style="color:#ae81ff">100</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">99</span>:
-</span></span><span style="display:flex;"><span>            print(<span style="color:#e6db74">&#34;epoch </span><span style="color:#e6db74">{}</span><span style="color:#e6db74">, loss </span><span style="color:#e6db74">{}</span><span style="color:#e6db74">, w </span><span style="color:#e6db74">{}</span><span style="color:#e6db74">&#34;</span><span style="color:#f92672">.</span>format(epoch <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, train_l<span style="color:#f92672">.</span>mean()<span style="color:#f92672">.</span>asnumpy(), w))</span></span></code></pre></div>
-<p>验证下结果看看</p>
-
-  <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:
-</span></span><span style="display:flex;"><span>    train()
-</span></span><span style="display:flex;"><span>    test <span style="color:#f92672">=</span> nd<span style="color:#f92672">.</span>array([<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>])    <span style="color:#75715e"># 测试集，565441</span>
-</span></span><span style="display:flex;"><span>    print(nd<span style="color:#f92672">.</span>dot(test, w))</span></span></code></pre></div>
-<p>随便跑了一次输出如下，注意模型里每个值的科学计数法的指数</p>
-
-  <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>epoch 1000, loss <span style="color:#f92672">[</span>  5.72006487e-09<span style="color:#f92672">]</span>, w
-</span></span><span style="display:flex;"><span><span style="color:#f92672">[[</span> -6.20802666e-06<span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span> <span style="color:#f92672">[</span>  1.62000088e-05<span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span> <span style="color:#f92672">[</span> -1.03610901e-05<span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span> <span style="color:#f92672">[</span>  7.82768348e-06<span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span> <span style="color:#f92672">[</span>  2.59973749e-05<span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span> <span style="color:#f92672">[</span>  9.99964714e-01<span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span> <span style="color:#f92672">[</span>  1.86312645e-05<span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span> <span style="color:#f92672">[</span>  1.99990368e+00<span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span> <span style="color:#f92672">[</span>  1.00001490e+00<span style="color:#f92672">]]</span>
-</span></span><span style="display:flex;"><span>&lt;NDArray 9x1 @cpu<span style="color:#f92672">(</span>0<span style="color:#f92672">)</span>&gt;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 1.00002611<span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>&lt;NDArray <span style="color:#ae81ff">1</span> @cpu<span style="color:#f92672">(</span>0<span style="color:#f92672">)</span>&gt;</span></span></code></pre></div>
-<p>忽略精度问题，可以认为符合真实结果</p>
-<p>全部代码详见 <a href="https://gist.github.com/whusnoopy/af0aa6fd276ace8a7c4d483e586e936d" rel="noopener" target="_blank">https://gist.github.com/whusnoopy/af0aa6fd276ace8a7c4d483e586e936d</a></p>
-
-  </div>
-  
-  <footer class="article-footer">
-    
-      <span>分类：<a href="/blog/category/tech-notes/machine-learning/">机器学习手记</a></span>
-    
-    
-      <span>标签：<a href="/blog/tag/gluon/">gluon</a>、<a href="/blog/tag/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>、<a href="/blog/tag/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/">线性回归</a></span>
     
   </footer>
 

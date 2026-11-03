@@ -16,7 +16,7 @@
   
   
 </head><body>
-<aside class="mirror-notice" data-pagefind-ignore>本站为备用镜像 · 内容更新于 <time>2026-10-23 14:00 CST</time> · <a href="https://www.yewen.us/">前往主站</a></aside>
+<aside class="mirror-notice" data-pagefind-ignore>本站为备用镜像 · 内容更新于 <time>2026-11-03 16:28 CST</time> · <a href="https://www.yewen.us/">前往主站</a></aside>
 
   <header class="site-header">
     <div class="site-header__inner">
@@ -43,6 +43,44 @@
   
   
   <section aria-label="文章列表">
+    
+      <article class="article article--summary h-entry">
+  <header class="article-header">
+    <h2 class="article-title"><a class="u-url p-name" href="/blog/2018/07/invalid-characters-in-environment-variable-path-by-vscode-python-extension/">VS Code 里 Python 扩展提示 Path 有非法字符</a></h2>
+    
+<p class="post-meta">
+  <time class="dt-published" datetime="2018-07-11T09:23:45&#43;08:00" data-pagefind-meta="date">2018年7月11日</time>
+</p>
+
+
+  </header>
+  <div class="article-content e-content">
+    <p>最近在 Win10 下打开 VS Code 时总会遇到这个报错</p>
+<img src="/blog/wp-content/uploads/2018/07/vscode-python-path-error.png" width="1137" height="438" alt="VS Code 启动时 Python 扩展提示 Path 环境变量有错误（来源：GitHub）" class="alignnone size-medium" />
+<p>搜了一圈发现还是官方的锅，详见 <a href="https://github.com/Microsoft/vscode-python/issues/2076" rel="noopener" target="_blank">https://github.com/Microsoft/vscode-python/issues/2076</a></p>
+<p>看了下 GitHub 上的 issue 和 Stack Overflow 上的讨论，理解了下造成这个问题的大概原因</p>
+<ol>
+<li>VS Code 里 Python 扩展会检查 Windows 的 Path 环境变量并解析，如果有预期之外的分号 <code>';'</code> 双引号 <code>'&quot;'</code> 或连续分号 <code>';;'</code> 则报错</li>
+<li>Windows 的 Path 很可能是由若干个变量组成的，比如 <code>Path=%Path%;C:\Python27\;%LOCAL_PATH%</code></li>
+<li>有的变量为了自我严谨，最后是加了分号的，有的环境变量在引用别人时，怕别人最后没加分号，就在引用后立马接上一个分号</li>
+<li>拼起来就呵呵了</li>
+</ol>
+<p>看起来官方已经知晓并明确问题，只能等下一个版本更新去掉这个严格检查，或看他们有什么更好的处理方法</p>
+
+  </div>
+  
+  <footer class="article-footer">
+    
+      <span>分类：<a href="/blog/category/tech-notes/">技术手记</a></span>
+    
+    
+      <span>标签：<a href="/blog/tag/vscode/">vscode</a></span>
+    
+  </footer>
+
+
+</article>
+
     
       <article class="article article--summary h-entry">
   <header class="article-header">
@@ -596,45 +634,6 @@ $ sudo echo &#34;yourname ALL=(root) NOPASSWD: /bin/mount&#34; &gt;&gt; /etc/sud
     
     
       <span>标签：<a href="/blog/tag/2017/">2017</a>、<a href="/blog/tag/2018/">2018</a>、<a href="/blog/tag/%E5%A4%A7%E9%98%AA/">大阪</a>、<a href="/blog/tag/%E6%97%A5%E6%9C%AC/">日本</a></span>
-    
-  </footer>
-
-
-</article>
-
-    
-      <article class="article article--summary h-entry">
-  <header class="article-header">
-    <h2 class="article-title"><a class="u-url p-name" href="/blog/2017/12/momo-twenty-months-old/">莫莫二十个月</a></h2>
-    
-<p class="post-meta">
-  <time class="dt-published" datetime="2017-12-20T22:14:48&#43;08:00" data-pagefind-meta="date">2017年12月20日</time>
-</p>
-
-
-  </header>
-  <div class="article-content e-content">
-    <p>最明显的变化就是语言表达能力真的进步了好多，大部分时间已经可以无障碍沟通了。还是按吃喝拉撒睡玩长来说</p>
-<p>奶粉从国版爱他美 3 段换成德版爱他美 1+ 段，没啥特别的考虑，就是觉得德版现在用的纸盒变得方便后，配方影响应该也不大。德版的勺子变宽变深了一些，往标准口径奶瓶倒的时候容易漏出去，不过 180ml 的水也只要四勺了。晚上可以不用吃了，早上偶尔要在六七点吃一顿奶，或者就等睡醒再吃，会对睡眠质量好点</p>
-<p>之前一直用小奶锅给莫莫单独煮吃的，发现水煮的做法现在经常不爱吃，更爱吃大人的菜，就另外买了一口锅，也是用跟大人一般的炒法来做，只是油盐等放的更清淡。吃东西经常第一口要说「烫」，明明很多时候已经吹冷了的，另外自己对烫的东西也会学着吹吹吹</p>
-<p>小馋猫一只，只要看到爸妈吃东西，横竖要凑过去也想来一口，各种水果基本都吃过了，经常自己看到餐桌上有水果了会跳着脚说「吃橘橘」「吃甘蔗」。不过也是小懒猫一只，经常吃的东西自己不想拿，要爸妈拿着喂</p>
-<p>喝水时经常变身小水牛，能一口气喝掉保温杯一大半，不过自己要是不想喝，也会直接把杯子推开</p>
-<p>秋天的时候经常尿一大泡，尿不湿没有拉拉裤兜那么多，双十一时买了很多拉拉裤。但冬天了拉拉裤就没有纸尿裤方便，换的话要把整个裤子拔掉，如果不是拉臭要洗屁股，一般就换尿不湿了，晚上睡觉用拉拉裤，跟一开始的设计想法不太一样啊。另外换尿不湿的频率变低，现在一天也就六七次的样子</p>
-<p>天气冷了就开始睡懒觉，早上要睡到八九点才起来，放开让他睡估计到十点都能睡，不过怕早上睡太多下午和晚上不好睡，一般也还是八九点等他哼哼唧唧进入浅睡眠后把他叫起来。下午睡的更晚，一般要到两三点，不过还是要睡够两个小时以上，不然起来有很大的起床气，一直哼哼唧唧哭哭啼啼怎么哄都不行，得过上一两个小时才自己好。晚上也越来越晚，经常要搞到快十点才睡，等睡着估计都十一点了。家里把作息都调到跟他一致，晚上都弄比较晚，偶尔也会自己主动要求提前睡，八九点突然喊要喝奶奶，然后就很快睡着了</p>
-<p>除了兔兔，现在睡觉要带更多的玩具一起，有巧虎的手偶，有小猪佩奇（其实是佩奇的弟弟乔治），如果没搂着一起睡，可能睡着后过一会就要哼哼唧唧「要兔兔要兔兔」。半夜偶尔也突然迷迷糊糊把兔兔拽过去蹭一蹭，再被拍拍接着睡</p>
-<p>四颗虎牙出来了三颗，另一颗也鼓起来蠢蠢欲动，后面的槽牙不太看得见，应该还没出来。变得不要刷牙，怎么哄和强迫都没有用，只能在他吃奶后喂点水靠漱口解决</p>
-<p>认识了更多的动物、水果、蔬菜，日常生活中的好多东西都认识，也能说出来。语言能力从短句变成更长的复杂长句，比如「妈妈坐公共汽车去上班」「爸爸开小汽车接妈妈」，自己要什么和不要什么也可以更好的表达，拉臭臭了问他会点头，或者自己主动说「拉臭臭」，然后还要「爸爸打水洗屁屁」</p>
-<p>会背好多唐诗和儿歌。一开始是会背咏鹅，有好些字发音还不准，但是能听出来他就是在背，背完「拨清波」还要自己鼓掌一下，然后会了「悯农」和「静夜思」之类。儿歌则更简单一点，四句或六句，有一本儿歌小册子基本都会了，好一些爸爸妈妈都不记得或记错了的，莫莫自己都毫无压力完整背出</p>
-<p>要看手机看电视，已经能分出好多动画片，会有自己的想法去看，给莫莫的 iPhone 5 各种无压力解锁，自己点开贝瓦儿歌看视频听儿歌，后来看他实在太流畅也管不住，只能把手机密码改掉，这样才算是压住不停看电视的上瘾儿童</p>
-
-  </div>
-  
-  <footer class="article-footer">
-    
-      <span>分类：<a href="/blog/category/blabla/momo-and-aoao/">莫莫和奥奥</a></span>
-    
-    
-      <span>标签：<a href="/blog/tag/%E8%8E%AB%E8%8E%AB/">莫莫</a></span>
     
   </footer>
 

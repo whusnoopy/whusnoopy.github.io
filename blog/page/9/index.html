@@ -16,7 +16,7 @@
   
   
 </head><body>
-<aside class="mirror-notice" data-pagefind-ignore>本站为备用镜像 · 内容更新于 <time>2026-10-23 14:00 CST</time> · <a href="https://www.yewen.us/">前往主站</a></aside>
+<aside class="mirror-notice" data-pagefind-ignore>本站为备用镜像 · 内容更新于 <time>2026-11-03 16:28 CST</time> · <a href="https://www.yewen.us/">前往主站</a></aside>
 
   <header class="site-header">
     <div class="site-header__inner">
@@ -43,6 +43,63 @@
   
   
   <section aria-label="文章列表">
+    
+      <article class="article article--summary h-entry">
+  <header class="article-header">
+    <h2 class="article-title"><a class="u-url p-name" href="/blog/2019/05/broken-cache-of-yarn/">记一次诡异的被 yarn 坑的过程</a></h2>
+    
+<p class="post-meta">
+  <time class="dt-published" datetime="2019-05-30T22:25:35&#43;08:00" data-pagefind-meta="date">2019年5月30日</time>
+</p>
+
+
+  </header>
+  <div class="article-content e-content">
+    <p>事情的起源是 @tdzl2003 说他用 VSCode 的 remote 模式用的很开心，放弃 Hyper-V 回到 VirtualBox 的怀抱，笨狗去看了下 remote 相关功能好像还在 VSCode Insider 里，可以装来试试看，弄好后看了下文档和教程，知道插件分装在本地和装在远端，但是项目里 <code>eslint</code> 插件就一直在报错，说找不到模块</p>
+<p>找不到就去补吧，到远端的目录下 <code>yarn install</code> 装好依赖，回到本地一看，还是报错，怎么会这样？在远端也执行下看看？</p>
+
+  <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ ./node_modules/.bin/eslint index.js
+</span></span><span style="display:flex;"><span>Error: Cannot find module <span style="color:#e6db74">&#39;jsx-ast-utils/elementType&#39;</span>
+</span></span><span style="display:flex;"><span>...</span></span></code></pre></div>
+<p>What the fuck?! 一定是哪里不对，把 <code>jsx-ast-utils</code> 这个包也重装一下？再来</p>
+
+  <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ yarn add jsx-ast-utils
+</span></span><span style="display:flex;"><span>$ ./node_modules/.bin/eslint index.js
+</span></span><span style="display:flex;"><span>Error: Cannot find module <span style="color:#e6db74">&#39;jsx-ast-utils/elementType&#39;</span>
+</span></span><span style="display:flex;"><span>...</span></span></code></pre></div>
+<p>你特么是在逗我？去看看这个包到底怎么回事，里面只有 <code>lib</code> <code>src</code> 两个目录，其他都没有，看起来好像是不太对</p>
+<p>确认了一下环境，Windows 10 Pro 1903, WSL Ubuntu 18.04.2, node 12.3.1, yarn 1.16.0，都是最新的，换个环境试试看？在自己另一台 MacBook Pro 上 <code>yarn install</code> 后就是正常的，hmmm，难道是 Windows 目录挂载到 WSL 下后文件权限啥的锅？试了下在 WSL 里用 WSL 的文件系统重新来过，问题依旧。在 Windows 里把 WSL 映射成网络盘，用 PowerShell 进到 WSL 文件系统里 <code>yarn install</code> 就是好的，嗯？好了？回到 WSL 下执行 PowerShell 安装好的 <code>node_modules</code> 也成功</p>
+<p>难道是 WSL 的奇怪问题，搜了下好像也没有任何相关信息？难道是最近新崩的问题所以大家都找不到，我印象中之前确实也能跑来着？那就是这个锅了。等几乎认定就是 WSL 有奇怪的问题后，晚上回家后拿另一台同样环境的机器，在 WSL 下就正常的装好了</p>
+<p>这这这，等会，冷静一下，一定有哪里不对，要不用下重启大法？把所有相关的东西都干掉重来一下？在有问题的机器上，把 git 仓库清空重来（虽然之前已经换不同的路径做过了），把 nodejs 和 yarn 都卸载重装，对了是不是跟 yarn 源还有关系？确认一下</p>
+
+  <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ yarn config get registry
+</span></span><span style="display:flex;"><span>https://registry.yarnpkg.com</span></span></code></pre></div>
+<p>果然这里不一样，忘了改成淘宝源，改一个再来一次（官方源为啥可能会有坑嘛，难道是最近撞墙撞的？不管了先死马当活马医好了）</p>
+
+  <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ yarn config set registry https://registry.npm.taobao.org
+</span></span><span style="display:flex;"><span>yarn config v1.16.0
+</span></span><span style="display:flex;"><span>success Set <span style="color:#e6db74">&#34;registry&#34;</span> to <span style="color:#e6db74">&#34;https://registry.npm.taobao.org&#34;</span>.
+</span></span><span style="display:flex;"><span>Done in 0.06s.</span></span></code></pre></div>
+<p>这下应该没问题了，走你，等 <code>yarn install</code> 跑完，先检查下 <code>node_modules/jsx-ast/utils/</code> 路径下文件对不对，嗯？还是只有 <code>lib</code> <code>src</code> 这两个文件夹？这到底是为什么啊，yarn 你这个坑货，要不换 npm 试试看？</p>
+<p><code>npm install</code> 跑一下，提示有文件权限不对，看了下，哦是之前有 <code>sudo npm install -g</code> 装过东西，把 <code>~/.npm</code> 目录下相关内容清掉就好了。用 npm 装完一看，好了。。。呃，果然 yarn 你个坑货到底哪里不对啊！？</p>
+<p>缓存？去吧 <code>~/.yarn</code> 下的内容都清掉，<code>/tmp</code> 下有一堆 <code>yarn-</code> 开头的不知道是啥应该也都可以干掉，再来，还挂？去搜 <code>yarn install package missing files</code>，终于看到了一个很相似的情况，不过他这个最后也是清了 yarn 的 cache 就好了。看了下除了 <code>~/.yarn</code> 还有人说 Cache 目录是 <code>~/.yarn-cache</code> 目录，但是我压根都没这个目录啊。顺着这条线索继续搜，找到 <code>yarn cache clean</code> 这个命令，执行后再装就好了</p>
+<p>那看来就是之前的缓存有问题，而我弄这么多各种重装也并没有清掉 cache，或者触发重新从远端拉包。那么 yarn 的 cache 到底在哪里？到用户根目录下查看所有文件，发现有一个目录叫 <code>.cache</code>，看着挺可疑，进去看看果然里面有 <code>pip</code> 和 <code>yarn</code> 等目录，看了下里面文件时间，就是这了，应该就是之前某次安装过程中被强制退出，导致那个点在装的一个或几个包是不对的，但是目录还在 yarn 就一直傻乎乎的用本地的</p>
+<p>结论：yarn 的 cache 机制对包的完整性保证不够，如果之前安装过程中有异常退出，赶上异常退出过程中的包就有可能损坏，后面如果不手动清 cache，就会一直挂</p>
+
+  </div>
+  
+  <footer class="article-footer">
+    
+      <span>分类：<a href="/blog/category/tech-notes/">技术手记</a></span>
+    
+    
+      <span>标签：<a href="/blog/tag/cache/">cache</a>、<a href="/blog/tag/npm/">npm</a>、<a href="/blog/tag/wsl/">WSL</a>、<a href="/blog/tag/yarn/">yarn</a></span>
+    
+  </footer>
+
+
+</article>
+
     
       <article class="article article--summary h-entry">
   <header class="article-header">
@@ -763,47 +820,6 @@
     
     
       <span>标签：<a href="/blog/tag/%E8%8E%AB%E8%8E%AB/">莫莫</a></span>
-    
-  </footer>
-
-
-</article>
-
-    
-      <article class="article article--summary h-entry">
-  <header class="article-header">
-    <h2 class="article-title"><a class="u-url p-name" href="/blog/2019/03/python-decorator-conflict-to-gevent/">Python decorator 库和 gevent 冲突的情况</a></h2>
-    
-<p class="post-meta">
-  <time class="dt-published" datetime="2019-03-12T15:45:42&#43;08:00" data-pagefind-meta="date">2019年3月12日</time>
-</p>
-
-
-  </header>
-  <div class="article-content e-content">
-    <p>去年写了两篇分析 decorator 的 blog:</p>
-<ul>
-<li><a href="/blog/2018/05/get-args-of-origin-function-in-python-decorator-chain/" rel="noopener noreferrer" target="_blank">Python 多层 decorator 内获取原始函数参数字典</a></li>
-<li><a href="/blog/2018/09/python-decorator-lib/" rel="noopener noreferrer" target="_blank">Python decorator 库</a></li>
-</ul>
-<p>在线上项目里一直也没有用 pypi 的 decorator 库去替换自己的实现，最近替换后撞上了一些问题，整个问题追查过程也各种艰辛，记录一下</p>
-<p>我们线上用的 flask 0.11.1 + celery 3.1.25 + gevent 1.2.2 在跑任务队列，broken 用的阿里云 redis 2.8，某个周末突然发现 worker 工作不正常，有大量的 db 连接报错，在简短排查后没找到原因，重启整个服务，暂时跳过这个问题，其实后面还在有其他错误，但也没有解决思路</p>
-<p>等周一到公司，团队的人对比了下问题现场和思路，只能发现是 celery worker 会莫名卡死，跑到我们的 k8s 集群上看，对应的 pod 是 running，但是 flower 上看监控是 offline，直接切进 pod 看日志，好几个最后都断在 requests 发请求出去的地方，N 脸懵逼，我们又没升级系统又没动依赖，怎么就会冒出来这个问题</p>
-<p>既然最后死在 requests 那，虽然看后面的 Changelog 没发现有跟我们直接习惯的，但还是先把 requests 版本从 2.19.0 升到 2.21.0，并把依赖的库也同步升级。然而并没有解决问题，还是一样的死，还是一样的错</p>
-<p>后面多看了几个问题现场，只能协助定位还可能会卡死在 db 读写的地方，这个时候开始怀疑 gevent，因为这货帮忙做了 IO 异步优化，强行协程化，而且这个版本也有点老，期间看也有一些可能相关的 Issue，升级 1.4.0 后发现服务起不来，查了下看需要把 celery 升级到 4.x，但 4.x 的 celery 参数序列化从 pickle 改成 json，还要改挺多代码的，只能先搁置</p>
-<p>后面还查了下 celery 的版本问题，我们用的 3.x 是有点老了，但 4.x 那个参数结构该动那个有大所以一直没动，另外也查用 redis 做 broken 的锅，没有任何有效的相关信息</p>
-<p>出问题前我在代码里替换了一版 lock 的实现，以及 lock_decorator 的实现，但是往这边怀疑也不对，因为有的出错的地方并没有用到锁，而且看日志和报错也跟锁没有关系</p>
-<p>等过了一周，第二个周末的时候开脑洞说好像现在有问题的方法都有修饰器包着，而且这些修饰器都用了 decorator 库，也许这里可能有问题？我们的 decorator 用的是 4.3.0，最新的版本是 4.3.2，大致看了下 Changelog，似乎提到有修复协程问题，但是是 python 3.5 的，不过反正不用改代码，先升了再说</p>
-<p>升完后问题真的消失了，那么就来看看到底哪里可能有问题吧。对比期间的变更记录 <a href="https://github.com/micheles/decorator/compare/4.3.0...4.3.2" rel="noopener noreferrer" target="_blank">https://github.com/micheles/decorator/compare/4.3.0&hellip;4.3.2</a>，除了一些文档变化和对 py3.5 的协程修复，比较值得怀疑的是 <a href="https://github.com/micheles/decorator/commit/eb890d98739196b83f1ecb5cb7bcfe9739a9502c" rel="noopener noreferrer" target="_blank">https://github.com/micheles/decorator/commit/eb890d98739196b83f1ecb5cb7bcfe9739a9502c</a> 这个提交，decorator 的原理是在内存里新建一个虚拟文件，把要修饰的方法的相关属性写到这个虚拟文件里，然后通过虚拟文件里的同名方法调装饰器逻辑，装饰器方法里再去调到最终的方法，而这个虚拟文件如果只用 <code>itertools.count()</code>，在 gevent 的协程调度下可能会重名，然后整个代码体系就崩了</p>
-
-  </div>
-  
-  <footer class="article-footer">
-    
-      <span>分类：<a href="/blog/category/tech-notes/">技术手记</a></span>
-    
-    
-      <span>标签：<a href="/blog/tag/decorator/">decorator</a>、<a href="/blog/tag/gevent/">gevent</a>、<a href="/blog/tag/python/">python</a></span>
     
   </footer>
 

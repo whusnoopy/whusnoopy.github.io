@@ -16,7 +16,7 @@
   
   
 </head><body>
-<aside class="mirror-notice" data-pagefind-ignore>本站为备用镜像 · 内容更新于 <time>2026-10-23 14:00 CST</time> · <a href="https://www.yewen.us/">前往主站</a></aside>
+<aside class="mirror-notice" data-pagefind-ignore>本站为备用镜像 · 内容更新于 <time>2026-11-03 16:28 CST</time> · <a href="https://www.yewen.us/">前往主站</a></aside>
 
   <header class="site-header">
     <div class="site-header__inner">
@@ -43,6 +43,58 @@
   
   
   <section aria-label="文章列表">
+    
+      <article class="article article--summary h-entry">
+  <header class="article-header">
+    <h2 class="article-title"><a class="u-url p-name" href="/blog/2026/03/poweroff-and-press-hold-power-button-to-fix-usb-c-and-thunderbolt-devices/">断电长按电源键可解决绝大部分USB-C/雷电口设备问题</a></h2>
+    
+<p class="post-meta">
+  <time class="dt-published" datetime="2026-03-31T20:08:11&#43;08:00" data-pagefind-meta="date">2026年3月31日</time>
+</p>
+
+
+  </header>
+  <div class="article-content e-content">
+    <p>个人和公司都遇到过笔记本电脑或显示器或别的设备的 USB-C 或雷电口，不能充电、传输信号等问题，大部分情况下，断电后长按电源键做重置就可以解决绝大部分问题</p>
+<ul>
+<li>
+<p>断电</p>
+<ul>
+<li>笔记本电脑需要拔外接电源，最好在 BIOS 里断掉内置电池供电，取下一切连在笔记本电脑上的外设，包括但不限于 U 盘、无线鼠标接收器、网线等</li>
+<li>显示器拔掉电源线，最好也把所有数据线也拔掉</li>
+</ul>
+</li>
+<li>
+<p>长按电源键</p>
+<ul>
+<li>笔记本电脑在 BIOS 断内置电池的情况下长按电源键不会开机，保持按下 10 秒以上，最好 15 秒或 20 秒。如果没有 BIOS 断内置电池的机型，大概率长按下会先开机，再自动关机，不管他一样按够时间</li>
+<li>显示器就是长按电源键，按够时间</li>
+</ul>
+</li>
+<li>
+<p>恢复</p>
+<ul>
+<li>笔记本电脑插外接电源适配器，正常开机就行</li>
+<li>显示器插好电源线和数据线，正常开机就行</li>
+</ul>
+</li>
+</ul>
+<p>原理：设备的 USB-C 控制器或雷电控制器进入了奇怪的工作状态，断电长按电源键是让其恢复默认状态，就是重置</p>
+
+  </div>
+  
+  <footer class="article-footer">
+    
+      <span>分类：<a href="/blog/category/tech-notes/">技术手记</a></span>
+    
+    
+      <span>标签：<a href="/blog/tag/usb-c/">USB-C</a>、<a href="/blog/tag/%E9%9B%B7%E7%94%B5/">雷电</a></span>
+    
+  </footer>
+
+
+</article>
+
     
       <article class="article article--summary h-entry">
   <header class="article-header">
@@ -397,38 +449,6 @@ ThinkPad X1 Carbon 2024, U5-125H, 32G RAM, 512G SSD, 2.8K120Hz OLED, LTE</p>
     
     
       <span>标签：<a href="/blog/tag/%E8%8E%AB%E8%8E%AB/">莫莫</a>、<a href="/blog/tag/%E9%AA%A8%E6%8A%98/">骨折</a></span>
-    
-  </footer>
-
-
-</article>
-
-    
-      <article class="article article--summary h-entry">
-  <header class="article-header">
-    <h2 class="article-title"><a class="u-url p-name" href="/blog/2024/10/wifi-disconnected-when-remote-desktop-login/">Win11 宿主机在远程链接时 WiFi 掉线的处理</a></h2>
-    
-<p class="post-meta">
-  <time class="dt-published" datetime="2024-10-25T17:56:36&#43;08:00" data-pagefind-meta="date">2024年10月25日</time>
-</p>
-
-
-  </header>
-  <div class="article-content e-content">
-    <p>在公司连的内网无线网络是通过 WPA/WPA2 加 Radius 走 LDAP 认证的，最近有一个奇怪的现象在多台 Win11 宿主机上出现，明明网络是连接状态，但从别的机器发起远程连接，接通的瞬间宿主机切到登录界面时网络就掉了</p>
-<p>宿主机连有线没有这个问题，连 WPA2-PSK/WPA3-SAE 模式只用 WiFi 密码连接的无线网没问题</p>
-<p>网上各种找解决办法，包括但不限于 设置网卡的电源配置以免节能模式关闭了网卡、升级补丁和驱动、导出网络配置文件并应用到所有用户 等，因为都没起作用所以也不在这里给引用链接了</p>
-<p>最终的解决办法是「从已知网络里忘记这个接入点，重新添加一次」就好了，就是这么无厘头……</p>
-<p>在 Win11 里忘记已知网络的设置入口在 <code>设置</code> - <code>网络和 Internet</code> - <code>WLAN</code> - <code>管理已知网络</code></p>
-
-  </div>
-  
-  <footer class="article-footer">
-    
-      <span>分类：<a href="/blog/category/tech-notes/">技术手记</a></span>
-    
-    
-      <span>标签：<a href="/blog/tag/wifi/">wifi</a>、<a href="/blog/tag/win11/">Win11</a></span>
     
   </footer>
 

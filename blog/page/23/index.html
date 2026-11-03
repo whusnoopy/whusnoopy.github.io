@@ -16,7 +16,7 @@
   
   
 </head><body>
-<aside class="mirror-notice" data-pagefind-ignore>本站为备用镜像 · 内容更新于 <time>2026-10-23 14:00 CST</time> · <a href="https://www.yewen.us/">前往主站</a></aside>
+<aside class="mirror-notice" data-pagefind-ignore>本站为备用镜像 · 内容更新于 <time>2026-11-03 16:28 CST</time> · <a href="https://www.yewen.us/">前往主站</a></aside>
 
   <header class="site-header">
     <div class="site-header__inner">
@@ -43,6 +43,122 @@
   
   
   <section aria-label="文章列表">
+    
+      <article class="article article--summary h-entry">
+  <header class="article-header">
+    <h2 class="article-title"><a class="u-url p-name" href="/blog/2014/12/12306-tickets-sequel/">补遗: 12306 和火车票那点事</a></h2>
+    
+<p class="post-meta">
+  <time class="dt-published" datetime="2014-12-16T17:18:34&#43;08:00" data-pagefind-meta="date">2014年12月16日</time>
+</p>
+
+
+  </header>
+  <div class="article-content e-content">
+    <p>两年前在北京折腾 12306 时写过一篇 <a href="/blog/2013/02/12306-train-tickets/" title="12306 和火车票那点事">12306 和火车票那点事</a>, 后来想想还列了一堆东西可以写, 不过后来忙忘了 (其实就是懒&hellip;), 现在反正都过时了, 再列出来看看当时的一些吐槽现在是不是还有效 (下面说的都是 2013 年 2 月记录的内容, 关于 2013 年春运, 本文写于 2014 年 12 月, 关注 2015 年春运)</p>
+<h2 id="当时觉得-12306-可以提升的几点">当时觉得 12306 可以提升的几点</h2>
+<ul>
+<li>订票流程中随机步骤验证码插入, 以更多的抵抗机器行为</li>
+</ul>
+<blockquote>
+<p>这个没法更好的插入, 今年 12306 干了个比较狠的事情, 如果你频繁切换 HOST 去查, 他会随机返回一个查询失败并且把你踢出登陆状态, 后面就算查到票要定时你还得重新登陆, 其实就是随机验证码插入</p>
+</blockquote>
+<ul>
+<li>提前显示票仓, 提升透明度</li>
+</ul>
+<blockquote>
+<p>这个无解, 更透明就意味着没法人为操纵, 万一有突发事件了估计都没法周转. 而且现在是网络和电话提前 60 天卖票, 窗口和代售点延后两天, 还要考虑票额分配比例是否要动态化</p>
+</blockquote>
+<h2 id="公众关心的问题">公众关心的问题</h2>
+<ul>
+<li>退票成本太低是当前游戏规则里的最大问题, 导致黄牛可以去刷票抢坑, 退票后再买给要转的人</li>
+</ul>
+<blockquote>
+<p>2013 年底的时候退票费改革了一次, 2014 年底跟着预售期延长又改了一次, 某些程度上把退票成本拉高了 (但是还是有很大漏洞, 具体自己研究就好, 点到为止). 更狠的是退票后不马上退回票仓放出来, 这个就会导致退出来的票不一定自己能买到, 黄牛的压力还是变大了的</p>
+</blockquote>
+<ul>
+<li>开放给第三方的问题是没法保证 &ldquo;公平性&rdquo;, 而且, 这不就是代售点么?</li>
+</ul>
+<blockquote>
+<p>目前来看还没有第三方敢去接这个明显供不应求的市场机制, 传闻 12306 也找过 BAT 的人, 做过大规模系统脑子正常的人都婉拒了, 阿里在排队系统上给了建议和帮助, 不过也还是没能解决本质上票不够的问题</p>
+</blockquote>
+<ul>
+<li>公知嘴脸: 铁道部亏钱就是浪费国家资产, 铁道部赚钱就是搜刮民脂民膏, 火车坐的人太多票价低是要担社会责任, 坐的人少票价贵是坑爹</li>
+</ul>
+<blockquote>
+<p>过了两年, 现在公知似乎更像是贬义词了? 不过随着动车越来越多, 公知们又可以有不同的喷点</p>
+</blockquote>
+<ul>
+<li>好像印度也没那么靠谱: <a href="http://weibo.com/1760678961/zjMK7xwQV" title="徐徐游弋的微博 - 珍惜生命, 远离印度火车" target="_blank">徐徐游弋的微博 - 珍惜生命, 远离印度火车</a></li>
+</ul>
+<blockquote>
+<p>之前说可以参考下印度的机制, 不过从上面这个长微博里提到的情况看, 大部分时候还是我们对其他机制想的太乐观了&hellip;</p>
+</blockquote>
+<h2 id="一些抢票建议">一些抢票建议</h2>
+<ol>
+<li>使用 http://dynamic.12306.cn/otsweb/ 登陆<br>
+a) 不要 https, 坑爹的证书不会用就不要乱来嘛, 而且这样之前 github 被拖挂也不存在了<br>
+b) 不要直接从 12306 主站进, 外面套一堆花花绿绿的不烦么</li>
+</ol>
+<blockquote>
+<p>这个地址已经不能用了, 12306 切了一套全新的, 而且现在就算用 http 也会被强跳到 https</p>
+</blockquote>
+<ol start="2">
+<li>多开浏览器是有用的<br>
+a) 不确定浏览器的缓存机制, 总之 Chrome/Fx/IE 什么的能开的都开上<br>
+b) 不同浏览器建议用不同的策略</li>
+</ol>
+<blockquote>
+<p>这个还是有点用的, 但是用途不大</p>
+</blockquote>
+<ol start="3">
+<li>车次/车站别限那么死<br>
+a) 春运等高峰期经常出临客, 而且现在 G/C/D/Z/T/K 都有可能是临客<br>
+b) 前后看几站, 如果不是始发终到不一定有票, 而且非始发站有时候也会有少量票可以抢, 时间可能还错开的, 目标站如果不是该车终点, 有票概率也会偏低 (当然也有之前遇到过武昌福州车的硬卧只卖到武夷山的特殊情况&hellip;)</li>
+</ol>
+<blockquote>
+<p>现在分车类型刷已经无效了, 都是一次查询出所有结果, 然后前端 JS 来做过滤, 换发到站还行, 但是 HOST 缓存太严重</p>
+</blockquote>
+<ol start="4">
+<li>刷余票时车型/是否过路/出发时间等组合变换<br>
+a) 避免被缓存, 更大概率刷出来</li>
+</ol>
+<blockquote>
+<p>同上</p>
+</blockquote>
+<ol start="5">
+<li>12306 的时间不一定是北京时间<br>
+a) 前后一两分钟都是有可能的, 别傻乎乎按自己电脑的时间卡点<br>
+b) 电话网络两手准备</li>
+</ol>
+<blockquote>
+<p>这个还是有用的, 卡点会从提示预售时间变成预定, 但是票额不一定是马上出来的. 另外如果是学生可以考虑成人学生混刷, 据我观察学生票好像被缓存影响的小一点 (也可能是默认大家都在刷成人, 学生票刷的多了也一样坑)</p>
+</blockquote>
+<h2 id="原文的一些修正和补充">原文的一些修正和补充</h2>
+<ol>
+<li>一个人多个证件的坑已经被补上了, 护照注册的帐号只能用护照买票, 其他同理</li>
+<li>精简版其实就是现在各个浏览器助手做的事情, 当然浏览器助手还做了分布式查询余票 sec 等事情</li>
+<li>现在的浏览器助手做的事情还是没跳出两年前说的那些事, 细节变化还挺大<br>
+a) 分布式取余票的 sec. 这个没什么好说的, 现在就是注意会被踢出登陆, 但是查余票又不用登陆, 所以其实还是无影响, 考虑下全网同步强行提交就好<br>
+b) 验证码识别. 这也没什么好说的, 12306 的验证码加强后还是很容易搞定的, 最多就是错一次重试, 或识别概率不高时主动切换一张验证码<br>
+c) 12306 各种暗处的验证码. 昨天看了一下, 还是变了不少地方, 要重做的话还是要去抓一堆包</li>
+</ol>
+<p>最后, 特么今年我的票还没搞定, 之前的工具一懒得修二来不及修, 今天用 UC 搞了一把还是挫, 难道要我去下个 360?</p>
+
+  </div>
+  
+  <footer class="article-footer">
+    
+      <span>分类：<a href="/blog/category/blabla/">碎碎念</a>、<a href="/blog/category/tech-notes/">技术手记</a></span>
+    
+    
+      <span>标签：<a href="/blog/tag/12306/">12306</a>、<a href="/blog/tag/%E7%81%AB%E8%BD%A6/">火车</a>、<a href="/blog/tag/%E7%81%AB%E8%BD%A6%E7%A5%A8/">火车票</a></span>
+    
+  </footer>
+
+
+</article>
+
     
       <article class="article article--summary h-entry">
   <header class="article-header">
@@ -560,37 +676,6 @@ XXX社区居民委员会<br>
     
     
       <span>标签：<a href="/blog/tag/music/">Music</a>、<a href="/blog/tag/%E6%97%A5%E8%AF%AD%E6%AD%8C/">日语歌</a></span>
-    
-  </footer>
-
-
-</article>
-
-    
-      <article class="article article--summary h-entry">
-  <header class="article-header">
-    <h2 class="article-title"><a class="u-url p-name" href="/blog/2014/09/say-what-i-see/">讲我所见</a></h2>
-    
-<p class="post-meta">
-  <time class="dt-published" datetime="2014-09-27T09:47:55&#43;08:00" data-pagefind-meta="date">2014年9月27日</time>
-</p>
-
-
-  </header>
-  <div class="article-content e-content">
-    <p>只是偶尔想起来的一句双语双关, 特别是对前后鼻音不分且英语烂到爆的笨狗</p>
-<p>这个博客站的名字叫随手留下, 也是随手记录点自己的所见所闻, 那正是 &ldquo;讲我所见&rdquo;, 前后鼻音不分的话, 讲 和 见 就是一样的了</p>
-<p>而用最土的英语来表达刚那句中文, 不考虑语法时态等情况下的 Chilish 就会是 &ldquo;say what I see&rdquo;, 反正发音不准, say 和 see 又是一样了</p>
-<p>如果有人采纳这个 idea, 拿这个名字写专栏, 可以考虑下给我版权费 :P</p>
-
-  </div>
-  
-  <footer class="article-footer">
-    
-      <span>分类：<a href="/blog/category/blabla/">碎碎念</a>、<a href="/blog/category/student/english-practise/">英文练习</a></span>
-    
-    
-      <span>标签：<a href="/blog/tag/%E5%93%81%E7%89%8C/">品牌</a></span>
     
   </footer>
 

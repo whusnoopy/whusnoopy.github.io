@@ -16,7 +16,7 @@
   
   
 </head><body>
-<aside class="mirror-notice" data-pagefind-ignore>本站为备用镜像 · 内容更新于 <time>2026-10-23 14:00 CST</time> · <a href="https://www.yewen.us/">前往主站</a></aside>
+<aside class="mirror-notice" data-pagefind-ignore>本站为备用镜像 · 内容更新于 <time>2026-11-03 16:28 CST</time> · <a href="https://www.yewen.us/">前往主站</a></aside>
 
   <header class="site-header">
     <div class="site-header__inner">
@@ -43,6 +43,126 @@
   
   
   <section aria-label="文章列表">
+    
+      <article class="article article--summary h-entry">
+  <header class="article-header">
+    <h2 class="article-title"><a class="u-url p-name" href="/blog/2012/02/overflow/">爆流量记</a></h2>
+    
+<p class="post-meta">
+  <time class="dt-published" datetime="2012-02-05T22:14:40&#43;08:00" data-pagefind-meta="date">2012年2月5日</time>
+</p>
+
+
+  </header>
+  <div class="article-content e-content">
+    <h2 id="缘起">缘起</h2>
+<p>过年回家那几天发现此博客垃圾评论暴涨, 从一周几条涨到一天一千多, 当时懒, 人肉删了就没管. 回北京后发现还是这样, 删是删不及了, 只能把 Akismet 打开, 拦的效果还不错, 再要求访客第一次发表评论的用户要过审核, 这下好了, 基本上能拦住, 偶尔一两条漏的人看一下也就砍掉.</p>
+<p>这个空间买的就很便宜, 一个月 5G 流量对纯文本的 blog 来说完全够用. 在搞垃圾评论期间发现流量暴涨, 在一月还剩下没几天的时候收到邮件说流量达到 90%, 当时想了下估计是发垃圾评论的在抓站把流量搞的, 等我把垃圾评论处理了应该就没事, 看后台监控好像没怎么涨了就没继续关心. 第二天收到邮件说流量爆了, 而且登空间后台都登不上去. 没办法只能联系空间提供商 <a href="https://buy.flyssh.net/aff.php?aff=038">flyssh.net</a>, 说我是被垃圾评论搞挂的, 让帮看看能不能处理, 那边很快回复说看我爆的还挺厉害, 但是因为我也是受害者, 免费给我加了 5G 流量, 但是垃圾评论这事他们搞不了, 祝我尽快搞定.</p>
+<h2 id="解决">解决</h2>
+<p>我观察了下空间后台的流量监控, 发现不是实时更新, 而是一天一次. 另外由于服务器在美国, 上面的时区是 -5:00, 所以是每天下午一点结算, 我搞定了垃圾评论后每天流量还是非常夸张, 之前正常时一天不到 100M, 现在却一天 1.5G+. 想不清楚到底哪里有问题, 看了下后台有 Apache 的日志, 就抓下来分析了下, 这一看不要紧, 怎么 404 的次数这么多而且流量都这么大?</p>
+<table border="0" cellspacing="1" cellpadding="1">
+<tbody>
+<tr>
+<td>HTML 返回</td>
+<td>次数</td>
+<td>总字节</td>
+<td>平均长度</td>
+</tr>
+<tr>
+<td>200</td>
+<td>4219</td>
+<td>103,647,235.00</td>
+<td>24,566.80</td>
+</tr>
+<tr>
+<td>301</td>
+<td>2597</td>
+<td>1,750,723.00</td>
+<td>674.13</td>
+</tr>
+<tr>
+<td>500</td>
+<td>4</td>
+<td>13,882.00</td>
+<td>3,470.50</td>
+</tr>
+<tr>
+<td>302</td>
+<td>62</td>
+<td>49,992.00</td>
+<td>806.32</td>
+</tr>
+<tr>
+<td>403</td>
+<td>4596</td>
+<td>15,855,133.00</td>
+<td>3,449.77</td>
+</tr>
+<tr>
+<td>304</td>
+<td>274</td>
+<td>57,134.00</td>
+<td>208.52</td>
+</tr>
+<tr>
+<td>404</td>
+<td>10555</td>
+<td>1,488,782,649.00</td>
+<td>141,050.00</td>
+</tr>
+</tbody>
+</table>
+<p>从大到小挨个分析, 最大的是 404. 看错误绝大部分都是因为下 win7 未遂. 想起来 yewen.us 这个域名曾经在度娘内部提供过下载, 放的是度娘发的 X200/X201 可激活的 Win7 Pro, 估计有人用迅雷或旋风下载过, 结果被他们记住这个链接了. 但是我都返回 404 了居然还不停的请求, 真坑爹. 拦不了迅雷旋风就从自己这改变, 将那个 win7 的链接, 以及下载主入口都添加 301 跳转, 让去找正确的 ourfcr.info 下. 另一个 404 来源的大头是最近被搜索引擎抓站, 因为我没显式提供 robots.txt 也返回 404, 应对办法就是加了个空的 robots.txt 到根目录.</p>
+<p>404 的另外一个问题是返回页怎么也都这么大? 本来应该跳转到 /404.shtml, 一个不到 1k 的文件, 实际却跳到了 /blog/404.php. 中间换过一次主题, 新主题的 404 页面包括了整个主题框架, 就因为这所以数据大? 在弄不明白为什么 404 不是跳到 /404.shtml 的情况下, 果断将 /blog/404.php 先改成了一个纯 html 的:</p>
+
+  <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-html" data-lang="html"><span style="display:flex;"><span><span style="color:#75715e">&lt;!DOCTYPE HTML PUBLIC &#34;-//IETF//DTD HTML 2.0//EN&#34;&gt;</span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">HTML</span>&gt;&lt;<span style="color:#f92672">HEAD</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">TITLE</span>&gt;404 Not Found&lt;/<span style="color:#f92672">TITLE</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">HEAD</span>&gt;&lt;<span style="color:#f92672">BODY</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">H1</span>&gt;404 Not Found&lt;/<span style="color:#f92672">H1</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">BODY</span>&gt;&lt;/<span style="color:#f92672">HTML</span>&gt;</span></span></code></pre></div>
+<p>其次是 200 正常返回, 看了下 Agent, 不少还是垃圾评论发送者和搜索引擎的爬虫, 这没办法, 只能希望搜索引擎爬完后不再爬那些过期页面, 垃圾评论被 ban 掉后不再骚扰.</p>
+<p>再一个大头 403, 看记录似乎是某些搜索引擎或垃圾评论发送者的爬虫逻辑写的有问题, 每访问我 blog 的一个页面都会再去访问一个受限的链接, 从而引起大量的 403 错误. 这个不知道怎么写 robots.txt, 就放那吧, 等他抓完了应该就好了.</p>
+<p>上面的所有所有修改都完成后, 单天总流量下降到 77.0MB, 算下来是绝对不会超过每月 5000M 的限额了.</p>
+<h2 id="其他问题">其他问题</h2>
+<p>搞定流量问题后, 还有剩下几个不紧急的问题:</p>
+<ol>
+<li>404 为啥是由 /blog/404.php 返回?</li>
+<li>开 Akismet 防垃圾评论是不是靠谱?</li>
+<li>垃圾评论和爆流量都是换主题后导致的, 中间有联系么?</li>
+</ol>
+<p>对 404 那个检查实验了半天, 应该是在 WordPress 开启固定链接时, 在根目录的 .htaccess 里加的 rewrite 参数将不存在的访问默认的都导向 /blog/ 来处理, 所以空间后台的错误页面管理失效, 我那个改动是正确的, 丑点就丑点吧, 反正正常人类浏览遇到 404 点下后退好了, 发垃圾评论什么的我才不管呢.</p>
+<p>Akismet 固然是有效的, 但是很多时候也担心是否有性能和流量的问题, 搜了下果然还有更 ws 的解决方案, 那就是中文验证. 之前发到我 blog 的垃圾评论都是英文的, 而考虑到我的 blog 应该不会有全文非中文的评论, 所以只要限制评论必须带中文就行了. 修改主题的 functions.php, 在最前面加上这么一段</p>
+
+  <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">scp_comment_post</span>( $incoming_comment ) {
+</span></span><span style="display:flex;"><span>    $pattern <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;/[一-龥]/u&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 禁止全英文评论
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">preg_match</span>($pattern, $incoming_comment[<span style="color:#e6db74">&#39;comment_content&#39;</span>])) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">wp_die</span>(<span style="color:#e6db74">&#34;You should type some Chinese word (like &#34;</span><span style="color:#a6e22e">你好</span><span style="color:#e6db74">&#34;) in your comment to pass the spam-check, thanks for your patience! 您的评论中必须包含汉字!&#34;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span>( $incoming_comment );
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">add_filter</span>(<span style="color:#e6db74">&#39;preprocess_comment&#39;</span>, <span style="color:#e6db74">&#39;scp_comment_post&#39;</span>);</span></span></code></pre></div>
+<p>这下整个世界清静了, 连偶尔一两条 Akismet 放过去, 但因为访客第一次发言进入审核队列的垃圾评论都没有了. (上面那段代码很好理解, 就是把汉字在 utf-8 里的编码位置开头结尾过一遍, 看评论中是否有文字在其中, 不在就报错)</p>
+<p>对于换主题导致的问题, 不知道垃圾评论是否有关系, 这个主题用的人挺多, 作者还有几个其他主题也在被很多人用, 应该不至于在主题中嵌代码通报垃圾评论发送者, 只能说是个巧合, 或者说垃圾评论发送者对这个主题有匹配模板, 能快速从搜索引擎那搜到且自动发垃圾评论. 爆流量则是有一定关系了, 一是主题允许换色, 导致多个 css 加载, 二是 404.php 等处理页面太大, 换色的问题想了下让大家忍受下我的审美观, 不准换就行了, 404 的问题前面解决过了.</p>
+<h2 id="附小广告">附小广告</h2>
+<p><a href="https://buy.flyssh.net/aff.php?aff=038">flyssh.net</a> 提供的 ssh/vpn 都挺靠谱, 推荐下, 要折扣优惠码的可以私聊我. 他家虚拟主机如果最便宜那几档还有卖的话也非常划算, 可惜现在最便宜的也是 100RMB/年. 管理员都很 nice, 出问题时都很快很友好的帮助, 都是搞技术的, 沟通特别舒畅.</p>
+
+  </div>
+  
+  <footer class="article-footer">
+    
+      <span>分类：<a href="/blog/category/blog-manage/">博客管理</a>、<a href="/blog/category/tech-notes/">技术手记</a></span>
+    
+    
+      <span>标签：<a href="/blog/tag/404/">404</a>、<a href="/blog/tag/%E5%8D%9A%E5%AE%A2/">博客</a>、<a href="/blog/tag/%E6%B5%81%E9%87%8F/">流量</a></span>
+    
+  </footer>
+
+
+</article>
+
     
       <article class="article article--summary h-entry">
   <header class="article-header">
@@ -476,85 +596,6 @@
     
     
       <span>标签：<a href="/blog/tag/%E6%A0%A1%E5%86%85/">校内</a></span>
-    
-  </footer>
-
-
-</article>
-
-    
-      <article class="article article--summary h-entry">
-  <header class="article-header">
-    <h2 class="article-title"><a class="u-url p-name" href="/blog/2011/12/random-select-answers/">解答随机抽数系列问题并说明 bug</a></h2>
-    
-<p class="post-meta">
-  <time class="dt-published" datetime="2011-12-05T22:15:17&#43;08:00" data-pagefind-meta="date">2011年12月5日</time>
-</p>
-
-
-  </header>
-  <div class="article-content e-content">
-    <p>十月份的时候写了一篇 <strong>面试题, 随机抽样问题及扩展</strong>, 当时这个 blog 没整好, 发在了好几个地方</p>
-<ul>
-<li><a href="/blog/2011/10/random-select-problem/">http://www.yewen.us/blog/2011/10/random-select-problem/</a></li>
-<li><a href="http://hi.baidu.com/whusnoopy/blog/item/4f54b3de5d708344cdbf1a08.html">http://hi.baidu.com/whusnoopy/blog/item/4f54b3de5d708344cdbf1a08.html</a></li>
-<li><a href="http://blog.renren.com/blog/bp/Q7fr2sueah">http://blog.renren.com/blog/bp/Q7fr2sueah</a></li>
-</ul>
-<p>前几天跟 Lee.Mars 聊, 又把这堆问题解答了一遍, 并指出其中一个问题的 bug.</p>
-<h3 id="原始版-数据流-n-选-1">原始版, 数据流 n 选 1</h3>
-<p>构建一个可容纳一个数的 buffer, 数据流中第 i 个数过来时做一次 [0, 1] 的 random, 如果小于 1/i, 则更新 buffer. (证明过程略, 很简单的)</p>
-
-  <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>buf <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span>cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> sys<span style="color:#f92672">.</span>stdin:
-</span></span><span style="display:flex;"><span>  cnt <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> random<span style="color:#f92672">.</span>random() <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">1.0</span><span style="color:#f92672">/</span>cnt:
-</span></span><span style="display:flex;"><span>    buf <span style="color:#f92672">=</span> int(i)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>print buf</span></span></code></pre></div>
-<h3 id="加强版-数据流-n-选-k">加强版, 数据流 n 选 k</h3>
-<p>同上, 构建的 buffer 大小变为 k, 每次 rand 小于 k/i 时, 将 rand*i 对应的 buffer 更新</p>
-
-  <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>k <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span> 
-</span></span><span style="display:flex;"><span>buf <span style="color:#f92672">=</span> []
-</span></span><span style="display:flex;"><span>cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span> 
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> sys<span style="color:#f92672">.</span>stdin:
-</span></span><span style="display:flex;"><span>  cnt <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
-</span></span><span style="display:flex;"><span>  rd <span style="color:#f92672">=</span> int(random<span style="color:#f92672">.</span>random()<span style="color:#f92672">*</span>cnt)
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> rd <span style="color:#f92672">&lt;</span> k:
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> cnt <span style="color:#f92672">&lt;=</span> k:
-</span></span><span style="display:flex;"><span>      buf<span style="color:#f92672">.</span>append(int(i))
-</span></span><span style="display:flex;"><span>      buf[cnt<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> buf[rd]
-</span></span><span style="display:flex;"><span>    buf[rd] <span style="color:#f92672">=</span> int(i)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>print buf </span></span></code></pre></div>
-<h3 id="带权版-带权数据流-n-选-1">带权版, 带权数据流 n 选 1</h3>
-<p>同原始版, 只是对权重为 w[i] 的第 i 个数, rand 时判断是否小于 w[i]/SUM(w)</p>
-
-  <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>sum <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span>buf <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span>cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span> 
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> sys<span style="color:#f92672">.</span>stdin:
-</span></span><span style="display:flex;"><span>  cnt <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
-</span></span><span style="display:flex;"><span>  sum <span style="color:#f92672">+=</span> int(i)
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> random<span style="color:#f92672">.</span>random() <span style="color:#f92672">&lt;</span> float(i)<span style="color:#f92672">/</span>sum:
-</span></span><span style="display:flex;"><span>    buf <span style="color:#f92672">=</span> int(i)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>print buf </span></span></code></pre></div>
-<h3 id="带权选-k-版">带权选 k 版</h3>
-<p>这个有 bug, 无解, 因为无法保证最后选出来的 k 个数, 其 SUM(w[k1..kk])/sum(w[1..n]) = k/n, 那个概率无法算</p>
-<h3 id="分布式版-m-个序列最后选-k">分布式版, m 个序列最后选 k</h3>
-<p>每个序列先按加强版选 k 个, 然后将 m*k 个数放到一起, 做带权版的 n 选 k. 由于带权选 k 版有 bug, 所以这里会有一定误差. 而实际上一般的分布式框架是可以保证每个序列数据规模分布都比较均匀, 所以最后的 m*k 个数可以当无权版直接选 k, 这样的误差在工业应用是可以接受的</p>
-<p>注: 从 n 选 k 那个就可以很容易看出来, 这其实就是那个把一个序列打乱成随机状态的算法简化, n 选 1 只是 n 选 k 的一个特例</p>
-
-  </div>
-  
-  <footer class="article-footer">
-    
-      <span>分类：<a href="/blog/category/tech-notes/">技术手记</a></span>
-    
-    
-      <span>标签：<a href="/blog/tag/%E9%9A%8F%E6%9C%BA%E9%97%AE%E9%A2%98/">随机问题</a>、<a href="/blog/tag/%E9%9D%A2%E8%AF%95%E9%A2%98/">面试题</a></span>
     
   </footer>
 

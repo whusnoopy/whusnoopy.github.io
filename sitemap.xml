@@ -3,10 +3,34 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://www.yewen.us/blog/author/</loc>
-    <lastmod>2026-10-23T13:42:09+08:00</lastmod>
+    <lastmod>2026-11-03T16:27:46+08:00</lastmod>
   </url><url>
     <loc>https://www.yewen.us/blog/category/</loc>
-    <lastmod>2026-10-23T13:42:09+08:00</lastmod>
+    <lastmod>2026-11-03T16:27:46+08:00</lastmod>
+  </url><url>
+    <loc>https://www.yewen.us/posts/</loc>
+    <lastmod>2026-11-03T16:27:46+08:00</lastmod>
+  </url><url>
+    <loc>https://www.yewen.us/blog/author/snoopy/</loc>
+    <lastmod>2026-11-03T16:27:46+08:00</lastmod>
+  </url><url>
+    <loc>https://www.yewen.us/blog/tag/</loc>
+    <lastmod>2026-11-03T16:27:46+08:00</lastmod>
+  </url><url>
+    <loc>https://www.yewen.us/blog/tag/%E5%A5%A5%E5%A5%A5/</loc>
+    <lastmod>2026-11-03T16:27:46+08:00</lastmod>
+  </url><url>
+    <loc>https://www.yewen.us/blog/2026/11/aoao-leaves-things-behind/</loc>
+    <lastmod>2026-11-03T16:27:46+08:00</lastmod>
+  </url><url>
+    <loc>https://www.yewen.us/blog/category/blabla/momo-and-aoao/</loc>
+    <lastmod>2026-11-03T16:27:46+08:00</lastmod>
+  </url><url>
+    <loc>https://www.yewen.us/blog/tag/%E4%B8%8A%E5%AD%A6/</loc>
+    <lastmod>2026-11-03T16:27:46+08:00</lastmod>
+  </url><url>
+    <loc>https://www.yewen.us/blog/tag/%E5%B0%8F%E5%AD%A6/</loc>
+    <lastmod>2026-11-03T16:27:46+08:00</lastmod>
   </url><url>
     <loc>https://www.yewen.us/blog/tag/hugo/</loc>
     <lastmod>2026-10-23T13:42:09+08:00</lastmod>
@@ -15,15 +39,6 @@
     <lastmod>2026-10-23T13:42:09+08:00</lastmod>
   </url><url>
     <loc>https://www.yewen.us/blog/tag/php/</loc>
-    <lastmod>2026-10-23T13:42:09+08:00</lastmod>
-  </url><url>
-    <loc>https://www.yewen.us/posts/</loc>
-    <lastmod>2026-10-23T13:42:09+08:00</lastmod>
-  </url><url>
-    <loc>https://www.yewen.us/blog/author/snoopy/</loc>
-    <lastmod>2026-10-23T13:42:09+08:00</lastmod>
-  </url><url>
-    <loc>https://www.yewen.us/blog/tag/</loc>
     <lastmod>2026-10-23T13:42:09+08:00</lastmod>
   </url><url>
     <loc>https://www.yewen.us/blog/tag/wordpress/</loc>
@@ -47,19 +62,7 @@
     <loc>https://www.yewen.us/blog/2026/10/swap-fn-and-ctrl-keycaps-on-x1c-gen12/</loc>
     <lastmod>2026-10-09T16:00:47+08:00</lastmod>
   </url><url>
-    <loc>https://www.yewen.us/blog/tag/%E5%A5%A5%E5%A5%A5/</loc>
-    <lastmod>2026-09-24T15:37:48+08:00</lastmod>
-  </url><url>
     <loc>https://www.yewen.us/blog/2026/09/aoao-starts-primary-school/</loc>
-    <lastmod>2026-09-24T15:37:48+08:00</lastmod>
-  </url><url>
-    <loc>https://www.yewen.us/blog/category/blabla/momo-and-aoao/</loc>
-    <lastmod>2026-09-24T15:37:48+08:00</lastmod>
-  </url><url>
-    <loc>https://www.yewen.us/blog/tag/%E4%B8%8A%E5%AD%A6/</loc>
-    <lastmod>2026-09-24T15:37:48+08:00</lastmod>
-  </url><url>
-    <loc>https://www.yewen.us/blog/tag/%E5%B0%8F%E5%AD%A6/</loc>
     <lastmod>2026-09-24T15:37:48+08:00</lastmod>
   </url><url>
     <loc>https://www.yewen.us/blog/2026/09/mysterious-device-repairs/</loc>
@@ -5420,6 +5423,8 @@
     <loc>https://www.yewen.us/blog/2026/01/</loc>
   </url><url>
     <loc>https://www.yewen.us/blog/2026/10/</loc>
+  </url><url>
+    <loc>https://www.yewen.us/blog/2026/11/</loc>
   </url><url>
     <loc>https://www.yewen.us/blog/2026/02/</loc>
   </url><url>

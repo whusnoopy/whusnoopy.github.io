@@ -16,7 +16,7 @@
   
   
 </head><body>
-<aside class="mirror-notice" data-pagefind-ignore>本站为备用镜像 · 内容更新于 <time>2026-10-23 14:00 CST</time> · <a href="https://www.yewen.us/">前往主站</a></aside>
+<aside class="mirror-notice" data-pagefind-ignore>本站为备用镜像 · 内容更新于 <time>2026-11-03 16:28 CST</time> · <a href="https://www.yewen.us/">前往主站</a></aside>
 
   <header class="site-header">
     <div class="site-header__inner">
@@ -49,6 +49,34 @@
     
     
     <section aria-label="snoopy文章列表">
+      
+        <article class="article article--summary h-entry">
+  <header class="article-header">
+    <h2 class="article-title"><a class="u-url p-name" href="/blog/2006/08/start-my-summer-holiday/">Start My Summer Holiday</a></h2>
+    
+<p class="post-meta">
+  <time class="dt-published" datetime="2006-08-30T05:36:18&#43;08:00" data-pagefind-meta="date">2006年8月30日</time>
+</p>
+
+
+  </header>
+  <div class="article-content e-content">
+    <p>After six weeks, there is a new start, but for a friend&rsquo;s come, whom long time no see, the last week of this summer holiday, my only week, will be no free&hellip;</p>
+
+  </div>
+  
+  <footer class="article-footer">
+    
+      <span>分类：<a href="/blog/category/student/english-practise/">英文练习</a></span>
+    
+    
+      <span>标签：<a href="/blog/tag/%E5%A4%A7%E5%AD%A6%E7%94%9F%E6%B4%BB/">大学生活</a></span>
+    
+  </footer>
+
+
+</article>
+
       
         <article class="article article--summary h-entry">
   <header class="article-header">
@@ -358,96 +386,6 @@
     
     
       <span>标签：<a href="/blog/tag/whuacm/">WHUACM</a>、<a href="/blog/tag/%E9%9B%86%E8%AE%AD/">集训</a></span>
-    
-  </footer>
-
-
-</article>
-
-      
-        <article class="article article--summary h-entry">
-  <header class="article-header">
-    <h2 class="article-title"><a class="u-url p-name" href="/blog/2006/08/%E6%9C%80%E4%BC%98%E5%8C%B9%E9%85%8Dkuhn_munkras%E7%AE%97%E6%B3%95/">最优匹配(Kuhn_Munkras算法)</a></h2>
-    
-<p class="post-meta">
-  <time class="dt-published" datetime="2006-08-05T20:11:00&#43;08:00" data-pagefind-meta="date">2006年8月5日</time>
-</p>
-
-
-  </header>
-  <div class="article-content e-content">
-    
-  <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">// ** Start of PerfectMatch *******************************
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// Name: PerfectMatch by Kuhn_Munkras O(n^3)
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// Description: w is the adjacency matrix, nx,ny are the size of x and y,
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// lx, ly are the lables of x and y, fx[i], fy[i] is used for marking
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// whether the i-th node is visited, matx[x] means x match matx[x],
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// maty[y] means y match maty[y], actually, matx[x] is useless,
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// all the arrays are start at 1
-</span></span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> nx,ny,w[MAXN][MAXN],lx[MAXN],ly[MAXN];
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> fx[MAXN],fy[MAXN],matx[MAXN],maty[MAXN];
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">path</span>(<span style="color:#66d9ef">int</span> u)
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> v;
-</span></span><span style="display:flex;"><span>    fx[u]<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span>(v<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>;v<span style="color:#f92672">&lt;=</span>ny;v<span style="color:#f92672">++</span>)
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>((lx[u]<span style="color:#f92672">+</span>ly[v]<span style="color:#f92672">==</span>w[u][v])<span style="color:#f92672">&amp;&amp;</span>(fy[v]<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0</span>)) {
-</span></span><span style="display:flex;"><span>            fy[v]<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>;
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>((maty[v]<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0</span>)<span style="color:#f92672">||</span>(path(maty[v]))) {
-</span></span><span style="display:flex;"><span>                matx[u]<span style="color:#f92672">=</span>v;
-</span></span><span style="display:flex;"><span>                maty[v]<span style="color:#f92672">=</span>u;
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span>(<span style="color:#ae81ff">1</span>);
-</span></span><span style="display:flex;"><span>            } <span style="color:#75715e">// end of if((maty[v]...
-</span></span></span><span style="display:flex;"><span>        } <span style="color:#75715e">// end of if((lx[u]...
-</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span>(<span style="color:#ae81ff">0</span>);
-</span></span><span style="display:flex;"><span>} <span style="color:#75715e">// end of int path()
-</span></span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">PerfectMatch</span>()
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> ret<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>,i,j,k,p;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    memset(ly,<span style="color:#ae81ff">0</span>,<span style="color:#66d9ef">sizeof</span>(ly));
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span>(i<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>;i<span style="color:#f92672">&lt;=</span>nx;i<span style="color:#f92672">++</span>) {
-</span></span><span style="display:flex;"><span>        lx[i]<span style="color:#f92672">=-</span>INF;
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span>(j<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>;j<span style="color:#f92672">&lt;=</span>ny;j<span style="color:#f92672">++</span>)
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(w[i][j]<span style="color:#f92672">&gt;</span>lx[i])
-</span></span><span style="display:flex;"><span>                lx[i]<span style="color:#f92672">=</span>w[i][j];
-</span></span><span style="display:flex;"><span>    } <span style="color:#75715e">// end of for(i...
-</span></span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    memset(matx,<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,<span style="color:#66d9ef">sizeof</span>(matx));
-</span></span><span style="display:flex;"><span>    memset(maty,<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,<span style="color:#66d9ef">sizeof</span>(maty));
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span>(i<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>;i<span style="color:#f92672">&lt;=</span>nx;i<span style="color:#f92672">++</span>) {
-</span></span><span style="display:flex;"><span>        memset(fx,<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,<span style="color:#66d9ef">sizeof</span>(fx));
-</span></span><span style="display:flex;"><span>        memset(fy,<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,<span style="color:#66d9ef">sizeof</span>(fy));
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>path(i)) {
-</span></span><span style="display:flex;"><span>            i<span style="color:#f92672">--</span>;
-</span></span><span style="display:flex;"><span>            p<span style="color:#f92672">=</span>INF;
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span>(k<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>;k<span style="color:#f92672">&lt;=</span>nx;k<span style="color:#f92672">++</span>)
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span>(fx[k]<span style="color:#f92672">&gt;</span><span style="color:#ae81ff">0</span>)
-</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">for</span>(j<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>;j<span style="color:#f92672">&lt;=</span>ny;j<span style="color:#f92672">++</span>)
-</span></span><span style="display:flex;"><span>                        <span style="color:#66d9ef">if</span>((fy[j]<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0</span>)<span style="color:#f92672">&amp;&amp;</span>(lx[k]<span style="color:#f92672">+</span>ly[j]<span style="color:#f92672">-</span>w[k][j]<span style="color:#f92672">&lt;</span>p))
-</span></span><span style="display:flex;"><span>                            p<span style="color:#f92672">=</span>lx[k]<span style="color:#f92672">+</span>ly[j]<span style="color:#f92672">-</span>w[k][j];
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span>(j<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>;j<span style="color:#f92672">&lt;=</span>ny;j<span style="color:#f92672">++</span>) ly[j]<span style="color:#f92672">+=</span>(fy[j]<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0</span><span style="color:#f92672">?</span><span style="color:#ae81ff">0</span><span style="color:#f92672">:</span>p);
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span>(k<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>;k<span style="color:#f92672">&lt;=</span>nx;k<span style="color:#f92672">++</span>) lx[k]<span style="color:#f92672">-=</span>(fx[k]<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0</span><span style="color:#f92672">?</span><span style="color:#ae81ff">0</span><span style="color:#f92672">:</span>p);
-</span></span><span style="display:flex;"><span>        } <span style="color:#75715e">// end of if(!path(i))
-</span></span></span><span style="display:flex;"><span>    } <span style="color:#75715e">// end of for(i...
-</span></span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span>(i<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>;i<span style="color:#f92672">&lt;=</span>ny;i<span style="color:#f92672">++</span>) ret<span style="color:#f92672">+=</span>w[maty[i]][i];
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> ret;
-</span></span><span style="display:flex;"><span>} <span style="color:#75715e">// end of int PerfectMatch()
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// ** End of PerfectMatch *********************************
-</span></span></span></code></pre></div>
-
-  </div>
-  
-  <footer class="article-footer">
-    
-      <span>分类：<a href="/blog/category/student/contests/">竞赛生涯</a>、<a href="/blog/category/tech-notes/">技术手记</a></span>
-    
-    
-      <span>标签：<a href="/blog/tag/km%E7%AE%97%E6%B3%95/">KM算法</a>、<a href="/blog/tag/%E6%9C%80%E4%BC%98%E5%8C%B9%E9%85%8D/">最优匹配</a>、<a href="/blog/tag/%E6%A0%87%E7%A8%8B/">标程</a>、<a href="/blog/tag/%E9%9B%86%E8%AE%AD/">集训</a></span>
     
   </footer>
 

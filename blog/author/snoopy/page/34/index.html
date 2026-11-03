@@ -16,7 +16,7 @@
   
   
 </head><body>
-<aside class="mirror-notice" data-pagefind-ignore>本站为备用镜像 · 内容更新于 <time>2026-10-23 14:00 CST</time> · <a href="https://www.yewen.us/">前往主站</a></aside>
+<aside class="mirror-notice" data-pagefind-ignore>本站为备用镜像 · 内容更新于 <time>2026-11-03 16:28 CST</time> · <a href="https://www.yewen.us/">前往主站</a></aside>
 
   <header class="site-header">
     <div class="site-header__inner">
@@ -49,6 +49,85 @@
     
     
     <section aria-label="snoopy文章列表">
+      
+        <article class="article article--summary h-entry">
+  <header class="article-header">
+    <h2 class="article-title"><a class="u-url p-name" href="/blog/2011/12/random-select-answers/">解答随机抽数系列问题并说明 bug</a></h2>
+    
+<p class="post-meta">
+  <time class="dt-published" datetime="2011-12-05T22:15:17&#43;08:00" data-pagefind-meta="date">2011年12月5日</time>
+</p>
+
+
+  </header>
+  <div class="article-content e-content">
+    <p>十月份的时候写了一篇 <strong>面试题, 随机抽样问题及扩展</strong>, 当时这个 blog 没整好, 发在了好几个地方</p>
+<ul>
+<li><a href="/blog/2011/10/random-select-problem/">http://www.yewen.us/blog/2011/10/random-select-problem/</a></li>
+<li><a href="http://hi.baidu.com/whusnoopy/blog/item/4f54b3de5d708344cdbf1a08.html">http://hi.baidu.com/whusnoopy/blog/item/4f54b3de5d708344cdbf1a08.html</a></li>
+<li><a href="http://blog.renren.com/blog/bp/Q7fr2sueah">http://blog.renren.com/blog/bp/Q7fr2sueah</a></li>
+</ul>
+<p>前几天跟 Lee.Mars 聊, 又把这堆问题解答了一遍, 并指出其中一个问题的 bug.</p>
+<h3 id="原始版-数据流-n-选-1">原始版, 数据流 n 选 1</h3>
+<p>构建一个可容纳一个数的 buffer, 数据流中第 i 个数过来时做一次 [0, 1] 的 random, 如果小于 1/i, 则更新 buffer. (证明过程略, 很简单的)</p>
+
+  <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>buf <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> sys<span style="color:#f92672">.</span>stdin:
+</span></span><span style="display:flex;"><span>  cnt <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> random<span style="color:#f92672">.</span>random() <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">1.0</span><span style="color:#f92672">/</span>cnt:
+</span></span><span style="display:flex;"><span>    buf <span style="color:#f92672">=</span> int(i)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print buf</span></span></code></pre></div>
+<h3 id="加强版-数据流-n-选-k">加强版, 数据流 n 选 k</h3>
+<p>同上, 构建的 buffer 大小变为 k, 每次 rand 小于 k/i 时, 将 rand*i 对应的 buffer 更新</p>
+
+  <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>k <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span> 
+</span></span><span style="display:flex;"><span>buf <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> sys<span style="color:#f92672">.</span>stdin:
+</span></span><span style="display:flex;"><span>  cnt <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>  rd <span style="color:#f92672">=</span> int(random<span style="color:#f92672">.</span>random()<span style="color:#f92672">*</span>cnt)
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> rd <span style="color:#f92672">&lt;</span> k:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> cnt <span style="color:#f92672">&lt;=</span> k:
+</span></span><span style="display:flex;"><span>      buf<span style="color:#f92672">.</span>append(int(i))
+</span></span><span style="display:flex;"><span>      buf[cnt<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> buf[rd]
+</span></span><span style="display:flex;"><span>    buf[rd] <span style="color:#f92672">=</span> int(i)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print buf </span></span></code></pre></div>
+<h3 id="带权版-带权数据流-n-选-1">带权版, 带权数据流 n 选 1</h3>
+<p>同原始版, 只是对权重为 w[i] 的第 i 个数, rand 时判断是否小于 w[i]/SUM(w)</p>
+
+  <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>sum <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>buf <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> sys<span style="color:#f92672">.</span>stdin:
+</span></span><span style="display:flex;"><span>  cnt <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>  sum <span style="color:#f92672">+=</span> int(i)
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> random<span style="color:#f92672">.</span>random() <span style="color:#f92672">&lt;</span> float(i)<span style="color:#f92672">/</span>sum:
+</span></span><span style="display:flex;"><span>    buf <span style="color:#f92672">=</span> int(i)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print buf </span></span></code></pre></div>
+<h3 id="带权选-k-版">带权选 k 版</h3>
+<p>这个有 bug, 无解, 因为无法保证最后选出来的 k 个数, 其 SUM(w[k1..kk])/sum(w[1..n]) = k/n, 那个概率无法算</p>
+<h3 id="分布式版-m-个序列最后选-k">分布式版, m 个序列最后选 k</h3>
+<p>每个序列先按加强版选 k 个, 然后将 m*k 个数放到一起, 做带权版的 n 选 k. 由于带权选 k 版有 bug, 所以这里会有一定误差. 而实际上一般的分布式框架是可以保证每个序列数据规模分布都比较均匀, 所以最后的 m*k 个数可以当无权版直接选 k, 这样的误差在工业应用是可以接受的</p>
+<p>注: 从 n 选 k 那个就可以很容易看出来, 这其实就是那个把一个序列打乱成随机状态的算法简化, n 选 1 只是 n 选 k 的一个特例</p>
+
+  </div>
+  
+  <footer class="article-footer">
+    
+      <span>分类：<a href="/blog/category/tech-notes/">技术手记</a></span>
+    
+    
+      <span>标签：<a href="/blog/tag/%E9%9A%8F%E6%9C%BA%E9%97%AE%E9%A2%98/">随机问题</a>、<a href="/blog/tag/%E9%9D%A2%E8%AF%95%E9%A2%98/">面试题</a></span>
+    
+  </footer>
+
+
+</article>
+
       
         <article class="article article--summary h-entry">
   <header class="article-header">
@@ -539,54 +618,6 @@ MSN: whu**@msn.com</p>
     
     
       <span>标签：<a href="/blog/tag/%E4%BA%BA%E7%94%9F/">人生</a>、<a href="/blog/tag/%E6%80%9D%E8%80%83/">思考</a></span>
-    
-  </footer>
-
-
-</article>
-
-      
-        <article class="article article--summary h-entry">
-  <header class="article-header">
-    <h2 class="article-title"><a class="u-url p-name" href="/blog/2011/08/%E8%B0%A3%E8%A8%80%E8%BE%9F%E8%B0%A3%E9%98%B4%E8%B0%8B%E8%AE%BA-%E6%9C%80%E8%BF%91%E6%9F%90%E4%BA%8B/">[谣言辟谣阴谋论] 最近某事</a></h2>
-    
-<p class="post-meta">
-  <time class="dt-published" datetime="2011-08-17T21:45:31&#43;08:00" data-pagefind-meta="date">2011年8月17日</time>
-</p>
-
-
-  </header>
-  <div class="article-content e-content">
-    <p>-1. 造谣前先说个八卦, 他喵滴寨厂总部停电了, 半个小时前, 我现在回家了&hellip;</p>
-<ol start="0">
-<li>
-<p>本帖说大家最喜欢的 造谣, 辟谣, 阴谋论. 依旧, 笨狗不对这里面任何东西负责, 都是我家键盘坏了出来的, 所有不代表笨狗, 也不代表寨厂的观点, 不代表赞成或反对或对其中啥玩意儿有想法</p>
-</li>
-<li>
-<p>经典的谣言来源, 我同事的亲戚的朋友:</p>
-</li>
-</ol>
-<blockquote>
-<p>朋友在央视网，找他打听了下。背景如下：<br>
-1、中宣部、国务院新闻办、国家互联网信息办公室认为，目前的互联网太乱了。给央视下命令，通过报导揭露互联网乱象和诚信问题，予以改善<br>
-2、央视选了多家互联网公司做系列报道。百度很不幸第一个，接下来轮到谁还不知道</p>
-</blockquote>
-<p>// 造谣: 因为要搞所有网媒, 所以大家都不说话, 没人落井下石, 因为下一个可能就是自己</p>
-<p>// 造谣: 搜狗/搜狐是国家队卧底, 理由是央视好像从来没搞过他们, 然后他们每年居然有那么多北京户口名额? 这次也只有搜狐出来做污点证人. 腾讯那个, 我觉得是被钓鱼的</p>
-<p>// 阴谋论: 先拿百度下手是因为以前收保护费收的轻车熟路, 先说虚假广告, 然后说贴吧, 接下来可能会是天涯/猫扑之类的论坛, 再转去微博, OK, 全部拿下. 你说门户? 门户说什么还不是 diang 说了算</p>
-<p>// 辟谣: 这次不应该是国家搞我们, 不然就不会只放 C2 一条狗了, 至少 C1 和新闻频道也提一下这事吧, 最好是新闻联播提一下, 焦点访谈做个专题, 新闻三十分再狠狠吐槽一把, 再把什么今日说法也捆上. 看看 08 年那次, 都只是想收保护费, 都 N 多频道一起上了</p>
-<p>// 吐槽: 晚上和几个老大一起吃饭, 说 CCAV 也可能是被人当枪使, 没办法. 老大问我, 如果肉饼要你让每条广告多收五毛钱, 你干不干. 我说显然不干啊, 又不是出去了没饭吃, 做人还是要有点基本道德的. 不过顿了下, 笨狗继续耍流氓, 说如果要是不做会饿死, 那还是干的, 失节事小, 饿死才 TM 事大, 好死不如赖活着, 也许 CCAV 的妓者就真的是没办法, 因为这些没节操的离了 CCAV 还真没地方混饭吃 (多收钱这事只要老大点头, 我是可以做的, 别说五毛, 五块都可以)</p>
-<p>// 辟谣: CCAV 钓鱼那个网站, 用正常的证件和网站骗过审核, 正常做了几天广告后, 半夜改成骗子网站, 第二天一上班就被寨厂审核毙了, 可惜, 几个小时完全够无良妓者拍完再蒙太奇一把了</p>
-<p>// 辟谣: CCAV 钓鱼寨厂工友, 被寨厂工友出示录音记录做无罪证明, 果然不管是对照片, 还是声音视频, 剪的好都会有很神奇的效果, 断章取义什么的不是无良妓者们的最爱么, 比如山西醋 95% 都是工业醋是谁说的来着?</p>
-
-  </div>
-  
-  <footer class="article-footer">
-    
-      <span>分类：<a href="/blog/category/blabla/fenqing/">愤青</a>、<a href="/blog/category/work-life/">工作点滴</a></span>
-    
-    
-      <span>标签：<a href="/blog/tag/ccav/">CCAV</a>、<a href="/blog/tag/%E6%84%A4%E9%9D%92/">愤青</a>、<a href="/blog/tag/%E7%99%BE%E5%BA%A6/">百度</a>、<a href="/blog/tag/%E8%B0%A3%E8%A8%80/">谣言</a></span>
     
   </footer>
 

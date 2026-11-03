@@ -16,7 +16,7 @@
   
   
 </head><body>
-<aside class="mirror-notice" data-pagefind-ignore>本站为备用镜像 · 内容更新于 <time>2026-10-23 14:00 CST</time> · <a href="https://www.yewen.us/">前往主站</a></aside>
+<aside class="mirror-notice" data-pagefind-ignore>本站为备用镜像 · 内容更新于 <time>2026-11-03 16:28 CST</time> · <a href="https://www.yewen.us/">前往主站</a></aside>
 
   <header class="site-header">
     <div class="site-header__inner">
@@ -43,6 +43,49 @@
   
   
   <section aria-label="文章列表">
+    
+      <article class="article article--summary h-entry">
+  <header class="article-header">
+    <h2 class="article-title"><a class="u-url p-name" href="/blog/2015/12/jquery-plugin-flyer-archive/">写了个 jQuery 动画小插件, 收起飞入抽屉效果</a></h2>
+    
+<p class="post-meta">
+  <time class="dt-published" datetime="2015-12-24T18:43:29&#43;08:00" data-pagefind-meta="date">2015年12月24日</time>
+</p>
+
+
+  </header>
+  <div class="article-content e-content">
+    <p>参考的效果是淘宝加入购物车时, 会将商品图变小, 往右飞入到购物车图标内, 提示这个东西去了哪里, 又从哪里可以找到. 最近我们在美折里做了几次登陆后弹层推荐, 希望用户关闭后还能知道怎么重新打开弹层推荐的内容, 就希望在关闭时给一个动画指示到最后可以重新打开的按钮上</p>
+<p>写了一个折叠收起的 jQuery 插件, 放在 GitHub 上: <a href="https://github.com/whusnoopy/flyerArchive/" target="_blank">https://github.com/whusnoopy/flyerArchive/</a></p>
+<p>下面测试按钮点击后应该会将本文变成一个红色框收起为一个小方块, 并最后消失在测试按钮上</p>
+<p><a id="sample_of_flyer_archive_btn" href="javascript:;">点此测试</a></p>
+<aside class="legacy-script-notice">
+<p>旧版嵌入脚本已在静态迁移中停用。</p>
+<p><a href="https://rawgit.com/whusnoopy/flyerArchive/master/jquery.flyerArchive.js" rel="nofollow noopener">原脚本地址</a></p>
+</aside>
+<aside class="legacy-script-notice">
+<p>旧版嵌入脚本已在静态迁移中停用。</p>
+<details><summary>查看原内联脚本</summary>
+<pre><code>jQuery(&quot;#sample_of_flyer_archive_btn&quot;).click(function() {
+    jQuery(&quot;#post-2831&quot;).flyerArchive({backgroundColor: &quot;#c33&quot;, flyTarget: jQuery(&quot;#sample_of_flyer_archive_btn&quot;)});
+  });</code></pre></details>
+</aside>
+<p>你们说我一个好好的算法工程师怎么就开始各种写前端了呢, 所以这时候应该膜蛤一把, 来背两句诗?</p>
+
+  </div>
+  
+  <footer class="article-footer">
+    
+      <span>分类：<a href="/blog/category/tech-notes/">技术手记</a></span>
+    
+    
+      <span>标签：<a href="/blog/tag/jquery/">jQuery</a>、<a href="/blog/tag/js/">js</a>、<a href="/blog/tag/%E5%89%8D%E7%AB%AF/">前端</a></span>
+    
+  </footer>
+
+
+</article>
+
     
       <article class="article article--summary h-entry">
   <header class="article-header">
@@ -631,91 +674,6 @@
     
     
       <span>标签：<a href="/blog/tag/ios/">iOS</a>、<a href="/blog/tag/os-x/">OS X</a>、<a href="/blog/tag/surface/">Surface</a>、<a href="/blog/tag/%E5%BE%AE%E8%BD%AF/">微软</a>、<a href="/blog/tag/%E7%A2%8E%E7%A2%8E%E5%BF%B5/">碎碎念</a></span>
-    
-  </footer>
-
-
-</article>
-
-    
-      <article class="article article--summary h-entry">
-  <header class="article-header">
-    <h2 class="article-title"><a class="u-url p-name" href="/blog/2015/09/notes-on-web-frontend-develop/">最近写 Web 前端的一些偶得</a></h2>
-    
-<p class="post-meta">
-  <time class="dt-published" datetime="2015-09-24T09:24:13&#43;08:00" data-pagefind-meta="date">2015年9月24日</time>
-</p>
-
-
-  </header>
-  <div class="article-content e-content">
-    <p>最近在公司搞项目上的东西也接触不少 Web 前端, 加上之前<a href="/blog/2015/09/new-homepage-for-meideng/" target="_blank">给公司做新首页</a>时也瞎捣鼓了些前端的东西, 再仔细看了下 Bootstrap 3 的文档, 发现之前说 Bs4 才有的很多东西其实 Bs3 也有了, 只是在 JavaScript 插件那部分, 都被我忽略了</p>
-<p>有一些随意记录的偶得, 给自己做个备份, 也供他人参考</p>
-<h2 id="浏览器兼容性">浏览器兼容性</h2>
-<p>总见 Bootstrap 中文文档里浏览器兼容性一节: <a href="http://v3.bootcss.com/getting-started/#support" target="_blank">http://v3.bootcss.com/getting-started/#support</a></p>
-<ul>
-<li>强制不让 IE 使用兼容模式: <a href="http://v3.bootcss.com/getting-started/#support-ie-compatibility-modes" target="_blank">http://v3.bootcss.com/getting-started/#support-ie-compatibility-modes</a></li>
-</ul>
-
-  <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">meta</span> <span style="color:#a6e22e">http-equiv</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;X-UA-Compatible&#34;</span> <span style="color:#a6e22e">content</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;IE=edge&#34;</span>&gt;</span></span></code></pre></div>
-<blockquote>
-<p>更多讨论可见 <a href="https://stackoverflow.com/questions/6771258/whats-the-difference-if-meta-http-equiv-x-ua-compatible-content-ie-edge-e" target="_blank">https://stackoverflow.com/questions/6771258/whats-the-difference-if-meta-http-equiv-x-ua-compatible-content-ie-edge-e</a></p>
-</blockquote>
-<ul>
-<li>国产浏览器的高速模式: <a href="http://v3.bootcss.com/getting-started/#support-chinese-browsers-renderer-modes" target="_blank">http://v3.bootcss.com/getting-started/#support-chinese-browsers-renderer-modes</a></li>
-</ul>
-
-  <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">meta</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;renderer&#34;</span> <span style="color:#a6e22e">content</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;webkit&#34;</span>&gt;</span></span></code></pre></div>
-<blockquote>
-<p>目前只有 360 支持, 详见 <a href="http://se.360.cn/v6/help/meta.html" target="_blank">http://se.360.cn/v6/help/meta.html</a></p>
-</blockquote>
-<h2 id="javascript-in-bootstrap">JavaScript in Bootstrap</h2>
-<h3 id="之前做首页时说-v4-才有其实-v3-就有了的">之前做首页时说 v4 才有其实 v3 就有了的</h3>
-<ul>
-<li>滚动监听 scrollspy: <a href="http://v3.bootcss.com/javascript/#scrollspy" target="_blank">http://v3.bootcss.com/javascript/#scrollspy</a></li>
-<li>幻灯片 carousel: <a href="http://v3.bootcss.com/javascript/#carousel" target="_blank">http://v3.bootcss.com/javascript/#carousel</a></li>
-</ul>
-<h3 id="其实可以不用自己写的">其实可以不用自己写的</h3>
-<ul>
-<li>标签页 tabs: <a href="http://v3.bootcss.com/javascript/#tabs" target="_blank">http://v3.bootcss.com/javascript/#tabs</a></li>
-</ul>
-<h3 id="一些可以整合的内容">一些可以整合的内容</h3>
-<ul>
-<li>模态框 modals (可替换 lightbox_me): <a href="http://v3.bootcss.com/javascript/#modals" target="_blank">http://v3.bootcss.com/javascript/#modals</a></li>
-<li>提示条 tooltips (可替换 tipsy): <a href="http://v3.bootcss.com/javascript/#tooltips" target="_blank">http://v3.bootcss.com/javascript/#tooltips</a></li>
-<li>弹出框 popover (可在 tipsy 基础上增加持续显示): <a href="http://v3.bootcss.com/javascript/#popovers" target="_blank">http://v3.bootcss.com/javascript/#popovers</a></li>
-<li>按钮事件 radio (可替换 bootstrap-switch): <a href="http://v3.bootcss.com/javascript/#buttons-checkbox-radio" target="_blank">http://v3.bootcss.com/javascript/#buttons-checkbox-radio</a></li>
-</ul>
-<h2 id="写前端时的其他意外发现">写前端时的其他意外发现</h2>
-<p>jQuery 里的 <code>.hover()</code> 绑定两个事件完美解决了多年前想做的 &ldquo;悬停时出现弹层, 且鼠标从悬停触发元素移动到弹层上也不消失&rdquo; 的事, 后来想明白了其实是因为之前我修改 display 的元素并不在 hover 元素内, 所以移出去就挂了</p>
-
-  <figure class="code-block">
-    <figcaption class="code-block__title">HTML</figcaption>
-    <div class="highlight" title="HTML"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;outer&#34;</span>&gt;
-</span></span><span style="display:flex;"><span>  悬停项
-</span></span><span style="display:flex;"><span>  &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;inner&#34;</span> <span style="color:#a6e22e">style</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;display: none&#34;</span>&gt;
-</span></span><span style="display:flex;"><span>    悬停内部内容, 从 outer 移到 inner 这部分也不会消失
-</span></span><span style="display:flex;"><span>  &lt;/<span style="color:#f92672">div</span>&gt;
-</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">div</span>&gt;</span></span></code></pre></div>
-  </figure>
-
-  <figure class="code-block">
-    <figcaption class="code-block__title">JavaScript</figcaption>
-    <div class="highlight" title="JavaScript"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#a6e22e">$</span>(<span style="color:#e6db74">&#34;#outer&#34;</span>).<span style="color:#a6e22e">hover</span>(<span style="color:#66d9ef">function</span>() {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">$</span>(<span style="color:#e6db74">&#39;#inner&#39;</span>, <span style="color:#66d9ef">this</span>).<span style="color:#a6e22e">show</span>();
-</span></span><span style="display:flex;"><span>}, <span style="color:#66d9ef">function</span>() {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">$</span>(<span style="color:#e6db74">&#39;#inner&#39;</span>, <span style="color:#66d9ef">this</span>).<span style="color:#a6e22e">hide</span>();
-</span></span><span style="display:flex;"><span>});</span></span></code></pre></div>
-  </figure>
-
-  </div>
-  
-  <footer class="article-footer">
-    
-      <span>分类：<a href="/blog/category/tech-notes/">技术手记</a></span>
-    
-    
-      <span>标签：<a href="/blog/tag/bootstrap/">Bootstrap</a>、<a href="/blog/tag/web-%E5%BC%80%E5%8F%91/">Web 开发</a>、<a href="/blog/tag/%E5%89%8D%E7%AB%AF/">前端</a></span>
     
   </footer>
 

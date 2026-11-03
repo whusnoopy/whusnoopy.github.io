@@ -16,7 +16,7 @@
   
   
 </head><body>
-<aside class="mirror-notice" data-pagefind-ignore>本站为备用镜像 · 内容更新于 <time>2026-10-23 14:00 CST</time> · <a href="https://www.yewen.us/">前往主站</a></aside>
+<aside class="mirror-notice" data-pagefind-ignore>本站为备用镜像 · 内容更新于 <time>2026-11-03 16:28 CST</time> · <a href="https://www.yewen.us/">前往主站</a></aside>
 
   <header class="site-header">
     <div class="site-header__inner">
@@ -49,6 +49,113 @@
     
     
     <section aria-label="snoopy文章列表">
+      
+        <article class="article article--summary h-entry">
+  <header class="article-header">
+    <h2 class="article-title"><a class="u-url p-name" href="/blog/2009/06/win7-%E6%89%8B%E8%AE%B0/">Win7 手记</a></h2>
+    
+<p class="post-meta">
+  <time class="dt-published" datetime="2009-06-18T15:11:47&#43;08:00" data-pagefind-meta="date">2009年6月18日</time>
+</p>
+
+
+  </header>
+  <div class="article-content e-content">
+    <h2 id="i-u-盘安装">I. U 盘安装</h2>
+<ol>
+<li>创建启动盘</li>
+</ol>
+
+  <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-ps1" data-lang="ps1"><span style="display:flex;"><span><span style="color:#75715e"># 以管理员身份运行命令提示符(cmd.exe), 并进入 diskpart</span>
+</span></span><span style="display:flex;"><span>C:&gt;diskpart
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 查看 U 盘的序号, 并选取</span>
+</span></span><span style="display:flex;"><span>DISKPART&gt;list disk
+</span></span><span style="display:flex;"><span>DISKPART&gt;select disk <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 清除内容, 并创建活动主分区, 格式化并挂载</span>
+</span></span><span style="display:flex;"><span>DISKPART&gt;clean
+</span></span><span style="display:flex;"><span>DISKPART&gt;create partition primary
+</span></span><span style="display:flex;"><span>DISKPART&gt;select partition <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>DISKPART&gt;active
+</span></span><span style="display:flex;"><span>DISKPART&gt;format fs=NTFS
+</span></span><span style="display:flex;"><span>DISKPART&gt;assign
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 搞定, 退出</span>
+</span></span><span style="display:flex;"><span>DISKPART&gt;exit</span></span></code></pre></div>
+<blockquote>
+<p>上述步骤可以直接在计算机管理-&gt;存储里完成, 主要是格式化后将分区设为 active(活动的)</p>
+</blockquote>
+<ol start="2">
+<li>制作安装盘</li>
+</ol>
+
+  <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-ps1" data-lang="ps1"><span style="display:flex;"><span><span style="color:#75715e"># 用 Deamon Tools 加载 Windows7 镜像到 x:, 并拷贝(u: 是 U 盘的盘符)</span>
+</span></span><span style="display:flex;"><span>xcopy x:*.* /s /e /f u:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使 U 盘能自启动</span>
+</span></span><span style="display:flex;"><span>u:boot&gt;bootsect /nt60 u:</span></span></code></pre></div>
+<ol start="3">
+<li>正常安装</li>
+</ol>
+<h2 id="ii-各项设置">II. 各项设置</h2>
+<ol start="0">
+<li>
+<p>如果无特意说明, 均指目前在 7201 x86 上的设置, 原来的 7100(rc) x64 有些不对.</p>
+</li>
+<li>
+<p>驱动等</p>
+</li>
+</ol>
+<p>直接让 Win7 自动更新, 完事后还需要安装的 ThinkPad 东西有</p>
+<ul>
+<li>HOTKEY(一些 Fn 快捷键和屏幕显示)</li>
+<li>HPROTECH(硬盘保护, 分 32/64bit)</li>
+<li>IBMPM(电源管理)</li>
+<li>SMIIF(系统界面, 还是和屏幕显示有关)</li>
+<li>UNAV(触摸板和指点杆的驱动, 分 32/64bit)</li>
+</ul>
+<ol start="2">
+<li>系统优化</li>
+</ol>
+<p>a. 关闭硬盘保护. 直接右键 My Computer 改之<br>
+b. 关闭休眠(Hibernate). 管理员模式运行 cmd, <code>C:&gt;powercfg -h off</code><br>
+c. 取消字体语言限制. 在控制面板的 Font settings, 去掉 Hide fonts based on language settings 的勾.<br>
+# 这个很脑残感觉, 害的在 记事本/Chrome 等地方要选 Fixedsys 和 Courier New 都选不到<br>
+d. 在鼠标的电源管理页将 允许此设备将计算机从待机状态恢复 的勾去掉.<br>
+# 这个也很脑残, 一开始不知道, 发现待机后随便动下机器就又醒了.</p>
+<ol start="3">
+<li>软件</li>
+</ol>
+<p>x. 如果无特意说明, 最好都在安装时, 选 run as administrator 模式运行安装文件, 这样不容易出问题.<br>
+a. 7zip. 装好后选文件关联时, 也用管理员模式运行, 这样右键菜单啥的都对了.<br>
+b. gvim. 无特别情况, 在 7100 x64 下右键关联有问题, 不知道是不是没用管理员模式的原因.<br>
+c. daemon tools. 提示不兼容的时候, 不管他, 记得重启后最好还是自己手动管理员模式运行安装文件而不是用默认的.<br>
+d. office 07. 装好 daemon 后挂 iso, 跟 XP/Vista 下安装一样, 注意选取组件和设置个人信息是在启动画面下面的 Custom 里, 不然直接点安装就是全默认了.</p>
+<h2 id="bug-汇总">Bug 汇总</h2>
+<ol>
+<li>
+<p>某次莫名其妙给我把无线网关了, 似乎我也没乱按什么键来着, 重启后好的(由于我没装 access connection, 所以没法 Fn+F5 控制)</p>
+</li>
+<li>
+<p>现在屏幕显示没了&hellip; 不知道为啥, 就是调亮度/声音什么的那个绿色的条没了</p>
+</li>
+</ol>
+
+  </div>
+  
+  <footer class="article-footer">
+    
+      <span>分类：<a href="/blog/category/tech-notes/">技术手记</a></span>
+    
+    
+      <span>标签：<a href="/blog/tag/win7/">win7</a></span>
+    
+  </footer>
+
+
+</article>
+
       
         <article class="article article--summary h-entry">
   <header class="article-header">
@@ -623,64 +730,6 @@ s: 是啊是啊, 我去年在那边实习的时候他们才开始谈<br>
 </ol>
 <h2 id="母亲节快乐">母亲节快乐</h2>
 <p>五一那个周末居然忘记打电话回去了, 然后, er, 其实也没啥事情, 没事听听老妈唠叨也好, 只是最近突然发现怎么老妈都没啥新台词了, 说来说去都一样的捏</p>
-
-  </div>
-  
-  <footer class="article-footer">
-    
-      <span>分类：<a href="/blog/category/student/hk/">HK</a></span>
-    
-    
-  </footer>
-
-
-</article>
-
-      
-        <article class="article article--summary h-entry">
-  <header class="article-header">
-    <h2 class="article-title"><a class="u-url p-name" href="/blog/2009/04/hk-week10/">HK Week10</a></h2>
-    
-<p class="post-meta">
-  <time class="dt-published" datetime="2009-04-26T20:00:00&#43;08:00" data-pagefind-meta="date">2009年4月26日</time>
-</p>
-
-
-  </header>
-  <div class="article-content e-content">
-    <h2 id="纵贯线">纵贯线</h2>
-<blockquote>
-<p>出发啦不要想那路在哪, 迎风向前, 是唯一的方法, 出发啦不想问那路在哪, 运命哎呀, 什么关卡. 当车声隆隆, 梦开始阵痛, 它卷起了风重新雕塑每个面孔, 夜雾那么浓, 开阔也汹涌, 有一种预感路的终点是迷宫. (纵贯线 - 亡命之徒(出发) - 2008)</p>
-</blockquote>
-<p>奇怪的组合, 至少我原来都没想过罗大佑会和张震岳一起, 中间的李宗盛和周华健好歹还两边都能靠下, 但是似乎更多也都是过去的时代了应该. 还好, 正如他们的组合名字, 纵贯线, 这个纵贯流行乐坛几多年的四个人, 在春晚的出场居然我完全没有印象, 在看到水木上的首页推荐和虾米上的, 才发现巡演了, 然后某告诉我似乎前不久就在香港来着, 刚查了下居然是 3.28, 天哪, 为啥没看到海报, 傻了. 很美妙的回忆, 那些歌曲, 好多都跟我差不多大了吧, 不过还好, 我的喜好是属于那个年代的.</p>
-<blockquote>
-<p>假如你先生回到鹿港小镇, 请问你是否告诉我的爹娘, 台北不是我想象的黄金天堂, 都市里没有当初我的梦想, 在梦里我再度回到鹿港小镇, 庙里膜拜的人们依然虔诚, 岁月掩不住爹娘淳朴的笑容, 梦中的姑娘依然长发盈空(罗大佑 - 鹿港小镇)</p>
-</blockquote>
-<p>经常, 我们都在怀念过去在家乡的美好岁月, 正如水木年华唱的, 我多想回到家乡. 但是实际上, 我们在面对失望的现实时, 怀念更多的只是过去, 都市只是加速了我们失望的过程, 而我们心里怀念的家乡, 也早已不是原来那个样子. 真的让我们所怀念的, 只是过去的黄金年代. 自己正如亡命之徒, 一路逃亡, 似乎我对每个地方都没有安定感, 总想快点逃离, 于是我就隔那么几年, 换一个城市, 学习, 生活, 打工, 然后, 在某个合适的时间, 再逃往下一个城市. 但是, 到底哪里才会是个终点, 现在发现, 其实家乡也并不是那么美好, 在曾经的河畔, 早已没有那股浓郁的稻香, 山不再清水不再秀, 淳朴的乡民眼光里更多的是狡黠.</p>
-<p>最后, 给出北京演唱会的 xiami 链接, 里面并不是现场会的 live, 而是照顺序收录了那些歌而已: <a href="http://www.xiami.com/song/showcollect/id/142878">http://www.xiami.com/song/showcollect/id/142878</a></p>
-<h2 id="life-is-like-summer-flowers">Life is like summer flowers</h2>
-<p>生如夏花, 泰戈尔的经典诗句, 朴树的第二张专辑也正以此为名. 正如 CD 开场第一句, ## 咖啡真苦, 蜜糖好甜, 我从来不拒绝, 所有滋味 (朴树 - 傻子才悲伤 - 生如夏花 - 2004). 本周的生活琐碎, 学的文学青年点, 用一个 zhuangbility 的楔子开头 :)</p>
-<ol>
-<li>
-<p>澡友.  这个topic 其实早就想说了, 只是一直忘记了. 人说打球有球友, 吃饭有饭友, 那如果老能在洗澡的时候遇到, 这算&hellip;? 还是澡友吧. 早几个星期, 应该还是樱花绚烂之时刚过, 在楼下的澡堂里听几个同济的哥们怀念, 说这时候也该是樱花飘落的季节了吧, 真想同济, 继而扯到武大, 扯到说日军侵华时留下, 终于没忍住, 搭讪说武大目前的樱花是 70 年代中日建交后的和平之举, 抗日战争时期武大确实是被日军攻陷并用作战地医院, 翌年为缓解受伤军人的思乡之情种植有樱花, 但是现在的这批却是被弄没后再弄来的. 学校似乎就这个澡堂? 然后经常在学校冲澡的人其实也就那么几个, 加上时间都比较一致, 所以就会经常碰到了, 不过, 澡堂似乎还真是个比较尴尬的地方, 好歹那哥们比我开朗热情多了, 没啥没啥. 至于后来经常中午在 Staff 餐厅吃饭排队时碰到, 这个&hellip; 我没任何评论&hellip;</p>
-</li>
-<li>
-<p>HKUST.  周一早上提前起来, 东铁线红磡至九龙塘, 居然有座位, 在九龙塘那个换乘走的路也相当可观, 貌似和上海人民广场一号线换二号线差不多? 或者更远一点? 路上接过一份报纸, 观塘线九龙塘看报纸看到彩虹站, 出来换小巴, 一开始没发现要排队, 发呆一会后才意识到我以为的入口并不是大家习惯的排队点. 本来我应该要等第二趟车, 但是最后还有一个位子时, 前面几个都不上, 不知道为啥, 然后司机往后看我就跳上去了, 刷卡时特意和司机说麻烦到科大时叫我下车, 用的英文, 还好司机听懂了 -.- 不过科大的门口比我想象的要好找, 因为是一个尽头站, 小巴进去再出来, 在门口的转盘掉头, 跟着大家下就是了, 下车时跟司机打个招呼告诉他我下来了 :).<br>
-到科大时其实早了很多, 在教学科研的楼里晃悠了下, 很辛苦才找到传说中的 3416, FMO 的人给我指路还指错了, 感觉科大这点不够好, 如果不知道房间靠近哪个电梯, 后果就是要在迷宫一般的楼道里穿行半天. 提前 20min 给 xx 打电话, 还没来, 于是无聊拍了那么几张, 但是不敢走远, 就在门口附近晃悠, 发现这边的学生会和大陆的是完全两回事, 看了看署名为学生会的海报或者其他的宣传单, 都是对抗学校抗议不公要求更多利益的, 似乎这个才叫学生代表会吧, 给学生们争取利益而不只是上面安置的一个监管学生的机构. xx 来了后一起坐下聊了半个小时, 发现他们对时间的安排都非常精准, 说 10 点碰头, 果然就是 10 点出现, 然后很好的把握时间我们就聊了半个小时, 然后他去拿东西我继续在校园里瞎逛下等 11 点去听 seminar, 一小时后结束. 本来还犹豫最后要不要一起吃个饭, 但是看科大的老师似乎跟其相谈甚欢, 于是打了个招呼直接回来了.<br>
-一些 PP :) <a href="http://picasaweb.google.com/whusnoopy/2009_04_26_HK_Week10">http://picasaweb.google.com/whusnoopy/2009_04_26_HK_Week10</a></p>
-</li>
-<li>
-<p>护照.  感谢党感谢祖国感谢伟大的 ** 公安局, 终于能找到我的调函也能想起来发回武汉了, 还是可爱的武汉局立马就签发并给我邮到了 HK, 本来我还想那玩意儿是不是该在家里的市局被耗了呢.</p>
-</li>
-<li>
-<p>失眠. 这其实不算个毛病, 但是也很是个问题, 虽然我印象中我没有那种沾床就着的能力, 但是也没这样失眠过. 上周, 或者说上上周, 不知道哪天开始, 突然晚上睡不着, 死活睡不着, 翻来覆去都睡不着, 纵然有窗外车流的噪声, 强光路灯, 厕所滴水等干扰因素, 但是这应该也不至于失眠, 最多是睡的不爽而已. 失眠的后果就是第二天很困很累, 干活像发泄, 不过第二天倒是能睡的比较好还, 就这样两天一循环. 但是上周末过的就比较痛苦, 周六早上好不容易睡爽了, 但是周六晚上就失眠, 周日依旧, 并且刷新了失眠记录, 至少我最后一次看表是 4:30 后, 然后 6 点多就醒了再也没睡好过. sigh, 结果周一从科大回来后, 吃饭, 然后去打球, 累死, 晚上吃饭的时候都睁不开眼, 晚上也没能很快就睡着. 本来以为是早上起来太晚导致, 后来发现似乎也没多大关系.</p>
-</li>
-</ol>
-<h2 id="就这样老去">就这样老去</h2>
-<p>似乎, 这是最后一个有法律意义的生日了, 因为, 咳咳, 某正式达到法定婚龄了. 以后的那啥, 似乎都没法律限制了, 像什么晚婚晚育年龄, 各地有各地的规定, 退休也看单位. 其实, 这个特性也并不是我想提的, 只是似乎大家都在刻意提到, 反正我也不是害羞的人, 神那, 啥时候有一个互相爱慕, 大家都认可赞同的女孩嫁给我吧.</p>
-<p>收到很多人的生日祝福, 开心 :) 然后若干人的祝福都是恭贺达到法定婚龄, 梦劼同学通过其贼呵呵的笑委婉的提示问啥时候她能升级为姑妈. 同时经人提醒, 想起来同日生日的人, 话说这个也很神奇, 前不久在一个火车迷的群里认识一哥们, 刚好大我一轮, 72.4.25, 巧合, 嘿嘿.</p>
-<p>按照这边的习惯大家去 K 歌玩, 因为懒得跑深圳, 就直接在尖东附近解决, 生日的人免单, 另外送一瓶香槟和蛋糕, 最后发现, 比去深圳还便宜居然, 三个小时, 人均 42, 还有一顿饭和饮品, 吃的在外面一般都要 20+ 了吧. 昨天还下了一上午的雨, 雨大的感觉我们就在瀑布的正下面, 回来路上手机甩了一张 D Core 上的 Poly 标志, 在相册里有.</p>
-<p>今天晚上去吃饭的路上突然想到, 再有半年, 似乎就差不多该是签工作的时候了. 就这样年华老去, sigh.</p>
 
   </div>
   

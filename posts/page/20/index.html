@@ -16,7 +16,7 @@
   
   
 </head><body>
-<aside class="mirror-notice" data-pagefind-ignore>本站为备用镜像 · 内容更新于 <time>2026-10-23 14:00 CST</time> · <a href="https://www.yewen.us/">前往主站</a></aside>
+<aside class="mirror-notice" data-pagefind-ignore>本站为备用镜像 · 内容更新于 <time>2026-11-03 16:28 CST</time> · <a href="https://www.yewen.us/">前往主站</a></aside>
 
   <header class="site-header">
     <div class="site-header__inner">
@@ -46,6 +46,91 @@
   </header>
   
   <section aria-label="posts文章列表">
+    
+      <article class="article article--summary h-entry">
+  <header class="article-header">
+    <h2 class="article-title"><a class="u-url p-name" href="/blog/2015/09/notes-on-web-frontend-develop/">最近写 Web 前端的一些偶得</a></h2>
+    
+<p class="post-meta">
+  <time class="dt-published" datetime="2015-09-24T09:24:13&#43;08:00" data-pagefind-meta="date">2015年9月24日</time>
+</p>
+
+
+  </header>
+  <div class="article-content e-content">
+    <p>最近在公司搞项目上的东西也接触不少 Web 前端, 加上之前<a href="/blog/2015/09/new-homepage-for-meideng/" target="_blank">给公司做新首页</a>时也瞎捣鼓了些前端的东西, 再仔细看了下 Bootstrap 3 的文档, 发现之前说 Bs4 才有的很多东西其实 Bs3 也有了, 只是在 JavaScript 插件那部分, 都被我忽略了</p>
+<p>有一些随意记录的偶得, 给自己做个备份, 也供他人参考</p>
+<h2 id="浏览器兼容性">浏览器兼容性</h2>
+<p>总见 Bootstrap 中文文档里浏览器兼容性一节: <a href="http://v3.bootcss.com/getting-started/#support" target="_blank">http://v3.bootcss.com/getting-started/#support</a></p>
+<ul>
+<li>强制不让 IE 使用兼容模式: <a href="http://v3.bootcss.com/getting-started/#support-ie-compatibility-modes" target="_blank">http://v3.bootcss.com/getting-started/#support-ie-compatibility-modes</a></li>
+</ul>
+
+  <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">meta</span> <span style="color:#a6e22e">http-equiv</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;X-UA-Compatible&#34;</span> <span style="color:#a6e22e">content</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;IE=edge&#34;</span>&gt;</span></span></code></pre></div>
+<blockquote>
+<p>更多讨论可见 <a href="https://stackoverflow.com/questions/6771258/whats-the-difference-if-meta-http-equiv-x-ua-compatible-content-ie-edge-e" target="_blank">https://stackoverflow.com/questions/6771258/whats-the-difference-if-meta-http-equiv-x-ua-compatible-content-ie-edge-e</a></p>
+</blockquote>
+<ul>
+<li>国产浏览器的高速模式: <a href="http://v3.bootcss.com/getting-started/#support-chinese-browsers-renderer-modes" target="_blank">http://v3.bootcss.com/getting-started/#support-chinese-browsers-renderer-modes</a></li>
+</ul>
+
+  <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">meta</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;renderer&#34;</span> <span style="color:#a6e22e">content</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;webkit&#34;</span>&gt;</span></span></code></pre></div>
+<blockquote>
+<p>目前只有 360 支持, 详见 <a href="http://se.360.cn/v6/help/meta.html" target="_blank">http://se.360.cn/v6/help/meta.html</a></p>
+</blockquote>
+<h2 id="javascript-in-bootstrap">JavaScript in Bootstrap</h2>
+<h3 id="之前做首页时说-v4-才有其实-v3-就有了的">之前做首页时说 v4 才有其实 v3 就有了的</h3>
+<ul>
+<li>滚动监听 scrollspy: <a href="http://v3.bootcss.com/javascript/#scrollspy" target="_blank">http://v3.bootcss.com/javascript/#scrollspy</a></li>
+<li>幻灯片 carousel: <a href="http://v3.bootcss.com/javascript/#carousel" target="_blank">http://v3.bootcss.com/javascript/#carousel</a></li>
+</ul>
+<h3 id="其实可以不用自己写的">其实可以不用自己写的</h3>
+<ul>
+<li>标签页 tabs: <a href="http://v3.bootcss.com/javascript/#tabs" target="_blank">http://v3.bootcss.com/javascript/#tabs</a></li>
+</ul>
+<h3 id="一些可以整合的内容">一些可以整合的内容</h3>
+<ul>
+<li>模态框 modals (可替换 lightbox_me): <a href="http://v3.bootcss.com/javascript/#modals" target="_blank">http://v3.bootcss.com/javascript/#modals</a></li>
+<li>提示条 tooltips (可替换 tipsy): <a href="http://v3.bootcss.com/javascript/#tooltips" target="_blank">http://v3.bootcss.com/javascript/#tooltips</a></li>
+<li>弹出框 popover (可在 tipsy 基础上增加持续显示): <a href="http://v3.bootcss.com/javascript/#popovers" target="_blank">http://v3.bootcss.com/javascript/#popovers</a></li>
+<li>按钮事件 radio (可替换 bootstrap-switch): <a href="http://v3.bootcss.com/javascript/#buttons-checkbox-radio" target="_blank">http://v3.bootcss.com/javascript/#buttons-checkbox-radio</a></li>
+</ul>
+<h2 id="写前端时的其他意外发现">写前端时的其他意外发现</h2>
+<p>jQuery 里的 <code>.hover()</code> 绑定两个事件完美解决了多年前想做的 &ldquo;悬停时出现弹层, 且鼠标从悬停触发元素移动到弹层上也不消失&rdquo; 的事, 后来想明白了其实是因为之前我修改 display 的元素并不在 hover 元素内, 所以移出去就挂了</p>
+
+  <figure class="code-block">
+    <figcaption class="code-block__title">HTML</figcaption>
+    <div class="highlight" title="HTML"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;outer&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>  悬停项
+</span></span><span style="display:flex;"><span>  &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;inner&#34;</span> <span style="color:#a6e22e">style</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;display: none&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>    悬停内部内容, 从 outer 移到 inner 这部分也不会消失
+</span></span><span style="display:flex;"><span>  &lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">div</span>&gt;</span></span></code></pre></div>
+  </figure>
+
+  <figure class="code-block">
+    <figcaption class="code-block__title">JavaScript</figcaption>
+    <div class="highlight" title="JavaScript"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#a6e22e">$</span>(<span style="color:#e6db74">&#34;#outer&#34;</span>).<span style="color:#a6e22e">hover</span>(<span style="color:#66d9ef">function</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">$</span>(<span style="color:#e6db74">&#39;#inner&#39;</span>, <span style="color:#66d9ef">this</span>).<span style="color:#a6e22e">show</span>();
+</span></span><span style="display:flex;"><span>}, <span style="color:#66d9ef">function</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">$</span>(<span style="color:#e6db74">&#39;#inner&#39;</span>, <span style="color:#66d9ef">this</span>).<span style="color:#a6e22e">hide</span>();
+</span></span><span style="display:flex;"><span>});</span></span></code></pre></div>
+  </figure>
+
+  </div>
+  
+  <footer class="article-footer">
+    
+      <span>分类：<a href="/blog/category/tech-notes/">技术手记</a></span>
+    
+    
+      <span>标签：<a href="/blog/tag/bootstrap/">Bootstrap</a>、<a href="/blog/tag/web-%E5%BC%80%E5%8F%91/">Web 开发</a>、<a href="/blog/tag/%E5%89%8D%E7%AB%AF/">前端</a></span>
+    
+  </footer>
+
+
+</article>
+
     
       <article class="article article--summary h-entry">
   <header class="article-header">
@@ -667,61 +752,6 @@
     
     
       <span>标签：<a href="/blog/tag/%E4%BA%91%E5%8D%97/">云南</a>、<a href="/blog/tag/%E6%97%85%E6%B8%B8/">旅游</a>、<a href="/blog/tag/%E6%98%86%E6%98%8E/">昆明</a>、<a href="/blog/tag/%E8%9C%9C%E6%9C%88/">蜜月</a>、<a href="/blog/tag/%E8%A5%BF%E5%8F%8C%E7%89%88%E7%BA%B3/">西双版纳</a>、<a href="/blog/tag/%E9%87%8E%E8%B1%A1%E8%B0%B7/">野象谷</a></span>
-    
-  </footer>
-
-
-</article>
-
-    
-      <article class="article article--summary h-entry">
-  <header class="article-header">
-    <h2 class="article-title"><a class="u-url p-name" href="/blog/2015/04/honeymoon-to-yunnan-part6/">云南蜜月游记 Part6</a></h2>
-    
-<p class="post-meta">
-  <time class="dt-published" datetime="2015-04-28T11:33:45&#43;08:00" data-pagefind-meta="date">2015年4月28日</time>
-</p>
-
-
-  </header>
-  <div class="article-content e-content">
-    <h2 id="day6-33-十三-西双版纳">Day6 3.3 (十三) 西双版纳</h2>
-<p>西双版纳的第一天, 睡得还行. 西双版纳是个地级市行政区划, 但是并不存在西双版纳市区, 首府所在地是景洪市, 另有两个县分别是勐海和勐腊. 西双版纳地名里太容易出现勐和景, 前者不知道是不是类似 &ldquo;X 庄&rdquo; 里的庄字</p>
-<p>在西双版纳另外成团, 算上我们有四拨人是之前在昆明那个团的, 很不爽的是在丽江去玉龙雪山那天早上迟到的那家不靠谱的还在. 导游是个矮矮的胖子, 自称以前跑长途货车, 现在来弄导游, 很世俗, 也很直白, 比如直说自己以前驾照和导游资格都是买来的, 比如丑话说在前这一行还是有不少自费项目的, 大家先把钱给我 (最后好像也确实没再有额外的自费内容, 这点来说先小人后君子的做派是我喜欢的). 云南一算边境, 对面缅甸等现在都不太安宁, 二是毒品走私等猖獗, 路上到处有检查站, 导游把大家身份证都收走方便过卡, 离开西双版纳时发还, 这个行为也很正常, 但是换受迫害者的心态, 万一这期间导游拿这批身份证去干点其他事就悲剧大了</p>
-<p>西双版纳傣族居多, 按傣族的语言, 年轻的帅哥美女该叫 猫哆哩 和 哨哆哩 (都发一声), 好像之前吃过坡给的某种糖果就叫猫哆哩, 看来是这边产的, 家喵倒是抗议为啥男的是猫&hellip; 年长的大爷大妈应该叫 老波涛 和 老咪涛. 又学会一种不同称呼</p>
-<p>前两天在丽江时还是冬天的感觉, 到西双版纳又变夏天, 云南不管南北都是阴处会偏凉, 太阳下立马又被晒死. 家喵听家长的云南还是比较冷的要多穿点衣服, 到西双版纳就傻眼了, 表示喵妈妈最南只到昆明, 经验放到这差距还是有点大</p>
-<figure class="wp-caption alignnone" style="max-width: 750px">
-<a href="/blog/wp-content/uploads/2015/04/IMG_1189.jpg"><img src="/blog/wp-content/uploads/2015/04/IMG_1189.jpg" alt="从寒冬到盛夏" width="750" height="500" class="size-full wp-image-2566" /></a> 从寒冬到盛夏
-</figure>
-<p>行程第一站是中缅打洛口岸, 结果快到的时候又拐去了个翡翠购物馆&hellip; 扣那呆了一个多小时, 粗看了下同等品质的玉器, 西双版纳这边比昆明还要明显便宜一截, 这东西还是暴利啊. 另外云南这边大的玉器市场都很有意思, 说保证一年有 10% 或多少的升值率, 你买走后如果过两年想卖回来, 他们会按这个升值率回购, 这算是另一种存款么?</p>
-<p>翡翠购物馆旁边是某个国界桩小公园, 没去看, 另外去了旁边一个金三角公园, 有一些后人工修复的边境纪念, 以及一些风俗表演. 其实这个地方离金三角还远着, 真正的金三角是笨狗年初去泰国时到的泰缅老三国边境. 在泰国没见到的长颈族在这里见到, 另外喵一直心心念念的人妖表演反倒在这里见到, 有人调戏人妖被反调戏, 有个坐舞台前面的眼镜斯文哥被叫上台互动也被整的够呛, 果然笨狗这种凑热闹不要凑太近的心态是对的</p>
-<figure class="wp-caption alignnone" style="max-width: 750px">
-<a href="/blog/wp-content/uploads/2015/04/IMG_1232.jpg"><img src="/blog/wp-content/uploads/2015/04/IMG_1232.jpg" alt="金三角公园入园处的民族特色表演" width="750" height="500" class="size-full wp-image-2567" /></a> 金三角公园入园处的民族特色表演
-</figure>
-<p>出来终于去到打洛口岸, 很普通的一个国境线口岸, 人也不多. 有很便宜的烟, 但是导游说质量也非常一般, 送人是绝对不行的, 自己图个乐还可以. 水果超级便宜, 路边见过好多大平板车在等香蕉装车, 在口岸这买了两大把香蕉才五块钱&hellip; (后来一直没吃完, 反正行李也不多, 带了一大把回老家)</p>
-<figure class="wp-caption alignnone" style="max-width: 750px">
-<a href="/blog/wp-content/uploads/2015/04/IMG_1144.jpg"><img src="/blog/wp-content/uploads/2015/04/IMG_1144.jpg" alt="五块钱两把的香蕉, 回家时还剩一大把" width="750" height="563" class="size-full wp-image-2565" /></a> 五块钱两把的香蕉, 回家时还剩一大把
-</figure>
-<p>在口岸附近看旅游局的资料, 推荐者附近的 4A 原生态小镇, 勐景来, 旅游局的工作人员说这边其实也就这个比较值得去. 中午吃饭的时候恰好就到了这里, 前面导游忽悠好大家晚上去自费篝火晚会有自助, 所以午饭标准提高点, 但是怎么看也没高到哪里去, 去的有点晚菜好多凉的, 又有虫子, 是竹虫, 白乎乎的看着也没敢吃. 小镇也没留时间给逛, 就吃完饭后自己随便看了看, 属于比较经典的傣族村落</p>
-<figure class="wp-caption alignnone" style="max-width: 750px">
-<a href="/blog/wp-content/uploads/2015/04/IMG_1369.jpg"><img src="/blog/wp-content/uploads/2015/04/IMG_1369.jpg" alt="勐景来" width="750" height="500" class="size-full wp-image-2569" /></a> 勐景来
-</figure>
-<p>从景洪到打洛是两三个小时, 吃完饭让大家随便歇息一会就往回走, 途径茶马古道主题景区, 去逛了圈, 这一次走的还算细, 只是景区里的导游带的还是有点赶, 应该还能细品下的</p>
-<figure class="wp-caption alignnone" style="max-width: 750px">
-<a href="/blog/wp-content/uploads/2015/04/IMG_1403.jpg"><img src="/blog/wp-content/uploads/2015/04/IMG_1403.jpg" alt="茶马古道" width="750" height="500" class="size-full wp-image-2570" /></a> 茶马古道
-</figure>
-<p>回到景洪市区, 到篝火晚会场地附近又被忽悠去喝普洱和购物, 果然有这个时间就该好好在茶马古道那边逛逛啊, 哪这么多购物安排</p>
-<p>说是篝火晚会, 其实是自助晚餐加室内舞台演出互动加篝火晚会. 自助晚餐味道一般, 比在昆明吃的那顿坑爹米线好点的水平, 后面很多东西也没补, 吃饭的时候又有书法家现场题字卖. 表演有较多民族风和互动, 但荤段子也有点多, 果然这才是人民群众喜闻乐见的方式? 最后的篝火晚会就围着一大堆火在全体绕圈跳舞, 气氛挺好, 就是参与者都有点乱</p>
-<p>回到酒店晚上十点, 洗洗就睡了, 这也是行程中难得的几个正常点睡正常点起的晚上之一</p>
-
-  </div>
-  
-  <footer class="article-footer">
-    
-      <span>分类：<a href="/blog/category/blabla/tour/">旅行</a></span>
-    
-    
-      <span>标签：<a href="/blog/tag/%E4%BA%91%E5%8D%97/">云南</a>、<a href="/blog/tag/%E6%97%85%E6%B8%B8/">旅游</a>、<a href="/blog/tag/%E8%9C%9C%E6%9C%88/">蜜月</a>、<a href="/blog/tag/%E8%A5%BF%E5%8F%8C%E7%89%88%E7%BA%B3/">西双版纳</a></span>
     
   </footer>
 
