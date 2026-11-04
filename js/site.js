@@ -33,6 +33,210 @@
     });
   };
 
+  const initTocLabelPreview = (card) => {
+    const preview = document.createElement('span');
+    // Older browsers retain the native title tooltip.
+    if (typeof preview.showPopover !== 'function') return { show: () => {}, hide: () => {} };
+    preview.className = 'toc-full-label';
+    preview.setAttribute('popover', 'manual');
+    preview.setAttribute('aria-hidden', 'true');
+    card.querySelectorAll('.toc-link').forEach((link) => link.removeAttribute('title'));
+
+    let currentLink = null;
+    let frameId = 0;
+    let animationUntil = 0;
+    let previewWidth = 0;
+    let previewRightInset = 0;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const getSelectedLink = () => card.querySelector('.toc-link.is-hovered') || card.querySelector('.toc-link:focus-visible');
+    const needsFullLabel = (link, label) => {
+      const range = document.createRange();
+      range.selectNodeContents(label);
+      const textWidth = range.getBoundingClientRect().width;
+      const currentSize = parseFloat(window.getComputedStyle(label).fontSize);
+      const enlargedSize = parseFloat(window.getComputedStyle(link).fontSize) * 1.1;
+      return textWidth * enlargedSize / currentSize > label.clientWidth;
+    };
+    const hide = () => {
+      window.cancelAnimationFrame(frameId);
+      frameId = 0;
+      animationUntil = 0;
+      currentLink?.classList.remove('needs-full-label');
+      if (preview.matches(':popover-open')) preview.hidePopover();
+      preview.remove();
+      currentLink = null;
+    };
+    const update = () => {
+      if (card.dataset.tocOpen !== 'true') return hide();
+      // Top-layer popovers do not propagate :hover to their DOM ancestors in Chrome.
+      const link = getSelectedLink();
+      const label = link?.querySelector('.toc-label');
+      if (!label || !needsFullLabel(link, label)) return hide();
+      if (currentLink !== link) return show();
+
+      const linkRect = link.getBoundingClientRect();
+      const cardRect = card.getBoundingClientRect();
+      if (linkRect.bottom <= cardRect.top || linkRect.top >= cardRect.bottom) return hide();
+      const labelRect = label.getBoundingClientRect();
+      const previewRect = preview.getBoundingClientRect();
+      const viewport = document.documentElement;
+      // Anchor the final width so the text's right edge stays fixed throughout zoom.
+      const right = Math.min(viewport.clientWidth - 16, Math.max(labelRect.right + previewRightInset, 16 + previewWidth));
+      const top = Math.max(16, Math.min((linkRect.top + linkRect.bottom - previewRect.height) / 2, viewport.clientHeight - previewRect.height - 16));
+      preview.style.right = `${viewport.clientWidth - right}px`;
+      preview.style.top = `${top}px`;
+      if (performance.now() < animationUntil) scheduleUpdate();
+    };
+    const scheduleUpdate = () => {
+      if (frameId || card.dataset.tocOpen !== 'true') return;
+      frameId = window.requestAnimationFrame(() => {
+        frameId = 0;
+        update();
+      });
+    };
+    const show = () => {
+      const link = getSelectedLink();
+      const label = link?.querySelector('.toc-label');
+      if (!label || !needsFullLabel(link, label)) return hide();
+      if (currentLink === link) {
+        scheduleUpdate();
+        return;
+      }
+      const labelStyle = window.getComputedStyle(label);
+      const startSize = labelStyle.fontSize;
+      const startOpacity = labelStyle.opacity;
+      hide();
+      currentLink = link;
+      preview.textContent = label.textContent;
+      preview.style.transition = 'none';
+      preview.style.width = 'max-content';
+      preview.style.fontSize = '';
+      preview.style.opacity = '0';
+      // Keep the full text in its link so hovering and clicking it still work.
+      link.appendChild(preview);
+      preview.showPopover();
+      previewWidth = preview.getBoundingClientRect().width;
+      const previewStyle = window.getComputedStyle(preview);
+      previewRightInset = parseFloat(previewStyle.paddingRight) + parseFloat(previewStyle.borderRightWidth);
+      preview.style.width = `${previewWidth}px`;
+      preview.style.fontSize = startSize;
+      preview.style.opacity = startOpacity;
+      link.classList.add('needs-full-label');
+      update();
+      // Commit the original size and position before starting the same zoom as other rows.
+      preview.getBoundingClientRect();
+      preview.style.transition = '';
+      preview.style.fontSize = '';
+      preview.style.opacity = '';
+      animationUntil = reducedMotion.matches ? 0 : performance.now() + 220;
+      scheduleUpdate();
+    };
+    card.addEventListener('scroll', scheduleUpdate, { passive: true });
+    window.addEventListener('scroll', scheduleUpdate, { passive: true });
+    window.addEventListener('resize', scheduleUpdate);
+    return { show, hide };
+  };
+
+  const initTocDisclosure = (card) => {
+    const labelPreview = initTocLabelPreview(card);
+    let openTimer = 0;
+    let closeTimer = 0;
+    let pointerInside = false;
+    let touchToExpand = false;
+    let hoveredLink = null;
+    const setHoveredLink = (link) => {
+      if (hoveredLink === link) return;
+      hoveredLink?.classList.remove('is-hovered');
+      hoveredLink = link;
+      hoveredLink?.classList.add('is-hovered');
+      labelPreview.hide();
+      if (link && card.dataset.tocOpen === 'true') labelPreview.show();
+    };
+    const getLink = (target) => target instanceof Element ? target.closest('.toc-link') : null;
+    const setOpen = (isOpen) => {
+      card.dataset.tocOpen = String(isOpen);
+      if (isOpen) labelPreview.show();
+      else labelPreview.hide();
+    };
+    const clearTimers = () => {
+      window.clearTimeout(openTimer);
+      window.clearTimeout(closeTimer);
+    };
+    const close = () => {
+      clearTimers();
+      setOpen(false);
+      setHoveredLink(null);
+    };
+    const scheduleClose = () => {
+      pointerInside = false;
+      clearTimers();
+      closeTimer = window.setTimeout(() => {
+        if (!pointerInside && !card.querySelector(':focus-visible')) close();
+      }, 180);
+    };
+
+    card.dataset.tocEnhanced = 'true';
+    setOpen(false);
+
+    card.addEventListener('pointerenter', (event) => {
+      if (event.pointerType === 'touch') return;
+      pointerInside = true;
+      clearTimers();
+      openTimer = window.setTimeout(() => setOpen(true), 120);
+    });
+    card.addEventListener('pointerover', (event) => {
+      if (event.pointerType === 'touch') return;
+      pointerInside = true;
+      window.clearTimeout(closeTimer);
+      setHoveredLink(getLink(event.target));
+    });
+    card.addEventListener('pointerout', (event) => {
+      if (event.pointerType === 'touch') return;
+      if (card.contains(event.relatedTarget)) {
+        setHoveredLink(getLink(event.relatedTarget));
+      } else {
+        scheduleClose();
+      }
+    });
+    card.addEventListener('pointerleave', (event) => {
+      if (event.pointerType === 'touch') return;
+      if (card.contains(event.relatedTarget)) return;
+      scheduleClose();
+    });
+    card.addEventListener('focusin', () => {
+      clearTimers();
+      setOpen(true);
+    });
+    card.addEventListener('focusout', () => {
+      clearTimers();
+      closeTimer = window.setTimeout(() => {
+        if (!pointerInside && !card.contains(document.activeElement)) setOpen(false);
+      }, 180);
+    });
+    card.addEventListener('pointerdown', (event) => {
+      touchToExpand = event.pointerType === 'touch' && card.dataset.tocOpen !== 'true';
+      if (touchToExpand) {
+        clearTimers();
+        setOpen(true);
+      }
+    });
+    card.addEventListener('click', (event) => {
+      if (!touchToExpand || !event.target.closest('.toc-link')) return;
+      event.preventDefault();
+      touchToExpand = false;
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && card.dataset.tocOpen === 'true') close();
+    });
+    document.addEventListener('pointerdown', (event) => {
+      if (!card.contains(event.target)) close();
+    });
+    window.matchMedia('(min-width: 1560px)').addEventListener('change', () => {
+      pointerInside = false;
+      close();
+    });
+  };
+
   const initAutoToc = () => {
     const content = document.querySelector('.article--single .article-content');
     const card = document.querySelector('[data-auto-toc]');
@@ -90,7 +294,11 @@
       link.className = 'toc-link';
       link.href = `#${encodeURIComponent(heading.id)}`;
       link.dataset.tocHeadingId = heading.id;
-      link.textContent = heading.dataset.tocLabel;
+      link.title = heading.dataset.tocLabel;
+      const label = document.createElement('span');
+      label.className = 'toc-label';
+      label.textContent = heading.dataset.tocLabel;
+      link.appendChild(label);
       item.appendChild(link);
       list.appendChild(item);
       links.push({ heading, item, link });
@@ -100,6 +308,7 @@
     target.replaceChildren(nav);
     card.hidden = false;
     if (slot) slot.hidden = false;
+    initTocDisclosure(card);
 
     let activeIndex = -1;
     let frameId = 0;
